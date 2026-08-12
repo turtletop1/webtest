@@ -27,6 +27,9 @@ DJANGO_APPS = [
 
 LOCAL_APPS = [                      #add new page
     "pages.apps.PagesConfig",
+    "accounts.apps.AccountsConfig",
+    "posts.apps.PostsConfig",
+    "stuffs.apps.StuffsConfig",
 ]
 
 THIRD_PARTY_APPS = ["debug_toolbar", "widget_tweaks","taggit"]
@@ -102,8 +105,18 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATIC_URL = 'static/'                      
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'config/static')]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')                 # 媒體文件保存在硬盤上的絕對路徑
+MEDIA_URL = '/media/'   
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+MESSAGE_TAGS = {
+    message.ERROR : 'danger',
+    message.SUCCESS : 'success',
+}

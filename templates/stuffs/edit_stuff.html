@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <h1 class="text-center mb-4">edit</h1>
+
+    <form action="{% url 'stuffs:edit_stuff' stuff.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+        <div class="form-group row">
+            {{ form.user }}
+        </div>
+        <div class="form-group row">
+            <label for="name">stuff name</label>
+            {{ form.name }}
+        </div>
+
+        <div class="form-group row">
+            <label for="type">type</label>
+            {{ form.type }}
+        </div>
+        <div class="form-group row">
+            <label for="district">district</label>
+            {{ form.district }}
+        </div>
+        <div class="form-group row">
+            <label for="location">location</label>
+            {{ form.location }}
+        </div>
+        <div class="form-group row">
+            <label for="missing_date">missing date</label>
+            {{ form.missing_date }}
+        </div>
+        <div class="form-group row">
+            <label for="photo">photo</label>
+            {{ form.photo_main }}
+        </div>
+        <div class="form-group row">
+            <label for="description">description</label>
+            {{ form.description }}
+        </div>
+
+        <button class="btn btn-primary w-100" type="submit">submit</button>
+
+    </form>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <a href={% url "posts:create_post" %}>
+        create
+    </a>
+
+    {% if postss %}
+    <table>
+        <tr>
+            <th>
+                title
+            </th>
+            <th>
+                user
+            </th>
+        <tr>
+        {% for post in postss %}
+        <tr>
+            <td>
+                {{post.title}} 
+            </td>
+            <td>
+                {{post.user.username}} 
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {% if postss %}
+
+            <ul style="display: flex; list-style: none; ">
+                {% if postss.has_previous %}
+                <li>
+                    <a href="?page={{postss.previous_page_number}}">&laquo;</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="#">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for i in postss.paginator.page_range %}
+                {% if i == postss.number %}
+                <li>
+                    <a>{{i}}</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="?page={{i}}">{{i}}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if postss.has_next %}
+                <li >
+                    <a href="?page={{postss.next_page_number}}">&raquo;</a>
+                </li>
+                {% else %}
+                <li >
+                    <a href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+
+{% endblock %}

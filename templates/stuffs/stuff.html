@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <a href="{% url "stuffs:create_stuff"%}" class="btn btn-outline-primary" role="button">
+        create
+    </a>
+
+
+    <hr>
+
+<div class="row">
+    {% if stuffs %}
+        {% for stuff in stuffs %}
+
+    <div class="col-sm-4">
+        <div class="card" style="width:20rem;">
+
+            <h4 class="card-header">{{stuff.name}}</h4>
+
+            <img src="{{stuff.photo_main.url}}" alt="pic" class="card-img-top">
+
+            <div class="card-body">
+                <h6 class="card-subtitle text-muted">type</h6>
+                    {{stuff.type}} 
+                <hr><h6 class="card-subtitle text-muted">missing day</h6>
+                    {{stuff.missing_date}} 
+                <hr>
+                <h6 class="card-subtitle text-muted">location or district</h6>
+                    {{stuff.location}} | {{stuff.district}} 
+                <hr>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#stuff_detail{{stuff.id}}">
+                    detail
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="stuff_detail{{stuff.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Description</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    {{stuff.description}} 
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <a href="{% url 'stuffs:edit_stuff' stuff.id%}" class="btn btn-success" role="button">
+                    edit
+                </a>
+
+            </div>
+        </div><br>
+    </div>
+{% endfor %}
+{% endif %}
+</div>
+
+    
+    {% if stuffs %}
+        <div class="col-md-12">
+            <ul class="pagination">
+                {% if stuffs.has_previous %}
+                <li class="page-item">
+                    <a  class="page-link" href="?page={{stuffs.previous_page_number}}">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for i in stuffs.paginator.page_range %}
+                {% if i == stuffs.number %}
+                <li class="page-item">
+                    <a class="page-link">{{i}}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{i}}">{{i}}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if stuffs.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{stuffs.next_page_number}}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+        </div>
+
+{% endblock %}
