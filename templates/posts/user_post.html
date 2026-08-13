@@ -1,19 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 
-
-<div class="jumbotron">
-        <div class="container">
-          <h1 class="display-3">Post</h1>
-          <p>This is a Post page. </p>
-        </div>
-      </div>
-
-
-<div class="container">
     {% if user.is_authenticated %}
-    <a href={% url "posts:user_post" %}>
-        mangae your posts
+    <a href={% url "posts:create_post" %} class="btn btn-outline-primary" role="button">
+        create
     </a>
     {% endif %}
 
@@ -103,6 +93,11 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <a href="{% url 'posts:edit_post' post.id%}" class="btn btn-success" role="button">
+                    edit
+                    </a>
+                    <button class="btn btn-danger" data-url="{%url 'posts:delete_post' post.id %}" data-toggle="modal" data-target="#deleteConfirmModal" data-id="{{post.id}}" >Delete</button>
 
                 </div>
             </div>       
@@ -110,6 +105,24 @@
         {% endfor %}
     {% endif %}
     </div>
+
+    <div class="modal fade" id="deleteConfirmModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete </h5>
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <!--modal body-->
+                <div class="modal-body">
+                    <p>Are you sure youm want to delete this ?</p>
+                    <a href="" class="btn btn-danger" id="confirmDeleteBtn">Yes</a>
+                    <button class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
         
 
     {% if postss %}
@@ -147,7 +160,5 @@
             </ul>
     {% endif %}
         </div>
-
-  </div>      
 
 {% endblock %}
