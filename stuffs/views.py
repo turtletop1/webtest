@@ -58,3 +58,9 @@ def edit_stuff(request,stuff_id):
 
     context = {"form":form , "stuff":stuff}
     return render(request, 'stuffs/edit_stuff.html',context)
+
+
+def delete_stuff(request,stuff_id):
+    contact = get_object_or_404(Stuff, pk=stuff_id)
+    contact.delete()
+    return redirect('stuffs:stuff')
