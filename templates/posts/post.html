@@ -30,30 +30,33 @@
 
                 <div class="card-body">
                     
-                    <h6 class="card-subtitle text-muted"><span class="material-symbols-outlined">account_circle</span> User name</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">account_circle</span> User Name</h6>
                     {{post.user.username}} 
                     <hr>
-                    <h6 class="card-subtitle text-muted"><span class="material-symbols-outlined">date_range</span> Issue date</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Issue Date</h6>
                     {{post.issue_date}} 
                     <hr>
-                    <h6 class="card-subtitle text-muted"><span class="material-symbols-outlined">date_range</span> Due date</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Due Date</h6>
                     {{post.due_date}} 
                     <hr>
-                    <h6 class="card-subtitle text-muted"><span class="material-symbols-outlined">date_range</span> Missing date</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Missing Date</h6>
                     {{post.stuff.missing_date}} 
                     <hr>
-                    <h6 class="card-subtitle text-muted"><span class="material-symbols-outlined">article</span> Post type</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">article</span> Post Type</h6>
                     {{post.type}} 
                     <hr>
-                    <h6 class="card-subtitle text-muted"><span class="material-symbols-outlined">box</span> Stuff type</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">box</span> Stuff Type</h6>
                     {{post.stuff.type}} 
                     <hr>
-                    <h6 class="card-subtitle text-muted"><span class="material-symbols-outlined">clock_loader_20</span> Status</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">clock_loader_20</span> Post Status</h6>
                     {{post.status}} 
+                    <hr>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">payments</span> Reward</h6>
+                    {% if post.reward %} ✅  {% else %}  ❌  {% endif %}
                     <hr>
 
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#post_detail{{post.stuff.id}}">
-                    Info detail
+                    Info Detail
                     </button>
                     <!-- Modal -->
                     <div class="modal fade" id="post_detail{{post.stuff.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -67,12 +70,12 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="message-text" class="text-muted">User email:</label>
+                                        <label for="message-text" class="text-muted">User Email:</label>
                                         <input type="text" class="form-control" value="{{post.user.email}}" readonly>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Stuff name:</label>
+                                        <label for="message-text" class="text-muted">Stuff Name:</label>
                                         <input type="text" class="form-control" value="{{post.stuff.name}}" readonly>
                                     </div>
 

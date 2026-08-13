@@ -4,8 +4,14 @@
     </div>
 
     <ul class="navbar-nav">
-         <li class="nav-item">
-            <a href="{% url "posts:post" %}" class="nav-link">post</a>
+         
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">post</a>
+            <div class="dropdown-menu">
+                <a href="{% url "posts:post" %}" class="dropdown-item">all</a>
+                <a href="{% url "posts:missing" %}" class="dropdown-item">missing</a>
+                <a href="{% url "posts:discover" %}" class="dropdown-item">discover</a>
+            </div>
         </li>
 
         {% if user.is_authenticated %}

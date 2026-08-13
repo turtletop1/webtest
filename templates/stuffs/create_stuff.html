@@ -2,6 +2,8 @@
 {% block content %}
 {% load humanize %}
 
+<div class="container">
+
     <form action="{%url 'stuffs:create_stuffs'%}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" name="user_id" value="{{user.id}}"><br>
@@ -53,6 +55,8 @@
         <hr>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+</div>
 
 
 {% endblock %}
