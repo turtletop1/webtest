@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static %}
+
+
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Stuff</h1>
-            <p>This is a stuff page. </p>
+            <h1 class="display-3"><span class="material-symbols-outlined" style="font-size: 55px;">box</span> Your Stuff</h1>
+            <p>This is a stuff page.you can select and manage your stuff </p>
         </div>
     </div>
 
 <div class="container">
-    <a href="{% url "stuffs:create_stuff"%}" class="btn btn-outline-primary" role="button">
-        create
+    <a href="{% url "stuffs:create_stuff"%}" class="btn btn-primary" role="button">
+        <span class="material-symbols-outlined">box_add</span> <b> create</b>
     </a>
     <hr>
 <div class="row">
@@ -20,7 +23,7 @@
         <div class="card" style="width:20rem;">
             <h4 class="card-header">{{stuff.name}}</h4>
 
-            <img {% if stuff.photo_main %} src="{{ stuff.photo_main.url }}" {% else %} src="https://picsum.photos/300/200" {% endif %} alt="pic" class="card-img-top">
+            <img {% if stuff.photo_main %} src="{{ stuff.photo_main.url }}" {% else %} src='{% static "img/img.jpg" %}' {% endif %} alt="pic" class="card-img-top">
 
             <div class="card-body">
                 <h6 class="card-subtitle text-muted">type</h6>

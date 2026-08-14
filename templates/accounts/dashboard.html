@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3"><span class="material-symbols-outlined" style="font-size: 55px;">emoji_people</span> Welcome !</h1>
+        <h3>{{ user.username }}  </h3>
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="fw-bold display-5 text-primary"><span class="material-symbols-outlined">account_circle</span> Personal info</h2>
+    <hr>
+    <div class="row">
+       <div class="col-4 text"><span class="material-symbols-outlined">badge</span> First Name </div>
+        <div class="col-6"> {{ user.first_name }} </div>
+    </div>
+    <hr>
+    <div class="row">
+       <div class="col-4"><span class="material-symbols-outlined">badge</span> Last Name </div>
+        <div class="col-6"> {{ user.last_name }} </div>
+    </div>
+    <hr>
+    <div class="row">
+       <div class="col-4"><span class="material-symbols-outlined">mail</span> Your Email </div>
+        <div class="col-6"> {{ user.email }}  </div>
+    </div>
+    <hr>
+    <div class="row">
+        <a href="#" class="btn btn-primary">Change Your Info</a>
+    </div>
+    <hr>
+</div>
+
+{% endblock %}

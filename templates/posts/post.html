@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static %}
 
 
 <div class="jumbotron">
-        <div class="container">
-          <h1 class="display-3">Post</h1>
-          <p>This is a Post page. </p>
-        </div>
-      </div>
+    <div class="container">
+        <h1 class="display-3"><span class="material-symbols-outlined" style="font-size: 55px;">article</span> Post</h1>
+        <p>This is a Post page. </p>
+    </div>
+</div>
 
 
 <div class="container">
     {% if user.is_authenticated %}
-    <a href={% url "posts:user_post" %}>
-        mangae your posts
+    <a href={% url "posts:user_post" %} class="btn btn-primary">
+        <span class="material-symbols-outlined">edit</span> <b>mangae your posts</b>
     </a>
     {% endif %}
 
@@ -26,7 +27,7 @@
             <div class="card" style="width:20rem;">
 
                 <h4 class="card-header">{{post.title}}</h4>
-                 <img {% if post.stuff.photo_main %} src="{{ post.stuff.photo_main.url }}" {% else %} src="https://picsum.photos/300/200" {% endif %} alt="pic" class="card-img-top">
+                 <img {% if post.stuff.photo_main %} src="{{ post.stuff.photo_main.url }}" {% else %} src='{% static "img/img.jpg" %}' {% endif %} alt="pic" class="card-img-top">
 
                 <div class="card-body">
                     
@@ -55,57 +56,9 @@
                     {% if post.reward %} ✅  {% else %}  ❌  {% endif %}
                     <hr>
 
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#post_detail{{post.stuff.id}}">
-                    Info Detail
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="post_detail{{post.stuff.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Description</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">User Email:</label>
-                                        <input type="text" class="form-control" value="{{post.user.email}}" readonly>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Stuff Name:</label>
-                                        <input type="text" class="form-control" value="{{post.stuff.name}}" readonly>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Location:</label>
-                                        <input type="text" class="form-control" value="{{post.stuff.location}}" readonly>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">District:</label>
-                                        <input type="text" class="form-control" value="{{post.stuff.district}}" readonly>
-                                    </div>
-                                    <hr>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Description:</label>
-                                        <div class="text-start" style="white-space: pre-wrap;" id="message-text" >{{post.stuff.description}}</div>
-                                    </div>
-                                    <hr>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Note:</label>
-                                        <div class="text-start" style="white-space: pre-wrap;" id="message-text" >{{post.content}}</div>
-                                    </div>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-success btn-md " role="button" aria-pressed="true">
+                        View Detail
+                    </a>
 
                 </div>
             </div>       

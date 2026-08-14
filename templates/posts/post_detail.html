@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">{{ post.title|title }}</h1>
+        <h3>{{ post.type }} | {{ post.stuff.type }} </h3>
+    </div>
+</div>
+
+
+
+<section id="listing" class="py-4">
+  <div class="container">
+    <a href="{% url 'posts:post' %}" class="btn btn-primary mb-4"><span class="material-symbols-outlined">
+arrow_back_2
+</span> Back To Posts</a>
+
+    <div class="row">
+        <div class="col-md-9">
+        
+        {% if post.stuff.photo_main %}
+        <img src="{{ post.stuff.photo_main.url }}" alt="{{ post.title }}" class="img-main img-fluid mb-4 rounded" />
+        {% else %}
+        <img src='{% static "img/img.jpg" %}' alt="Default Image" class="img-main img-fluid mb-4 rounded" />
+        {% endif %}
+
+
+        <div class="row mb-5 fields">
+            <div class="col-md-6">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                    <i class="fas fa-calendar-alt"></i> Issue Date:
+                    <span class="float-right text-dark">{{ post.issue_date|default:"N/A" }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                    <i class="fas fa-calendar-check"></i> Due Date:
+                    <span class="float-right text-dark">{{ post.due_date|default:"N/A" }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                    <i class="fas fa-calendar-times"></i> Missing Date:
+                    <span class="float-right text-dark">{{ post.stuff.missing_date|default:"N/A" }}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-6">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                    <i class="fas fa-info-circle"></i> Status:
+                    <span class="float-right badge badge-primary p-2">{{ post.status }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                    <i class="fas fa-boxes"></i> Stuff Type:
+                    <span class="float-right text-dark">{{ post.stuff.type }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                    <i class="fas fa-gift"></i> Reward Offered:
+                    <span class="float-right">
+                    {% if post.reward %}
+                    <span class="badge badge-success">Yes</span>
+                    {% else %}
+                    <span class="badge badge-secondary">No</span>
+                    {% endif %}
+                </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <h3 class="mb-3">Post Description</h3>
+                <div class="container" style="white-space:pre;">{{ post.stuff.description|default:"No description provided for this item." }}</div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <h3 class="mb-3">Content</h3>
+                <div class="container" style="white-space:pre;">{{ post.content|default:"No content provided for this item." }}</div>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <h3 class="mb-3">Comment</h3>
+            </div>
+            <div class="card w-100">
+                <div class="card-body">
+                    <div class="container" style="white-space:pre;">{{post.content}}</div>
+
+                </div>
+            </div>
+        </div>
+
+</div>
+
+    
+
+    {% if posts %}  <!--comment-->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <ul class="pagination justify-content-center">
+            {% if posts.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.previous_page_number }}">&laquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+            </li>
+            {% endif %}
+
+            {% for i in posts.paginator.page_range %}
+            {% if i == posts.number %}
+            <li class="page-item active">
+                <a class="page-link">{{ i }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.next_page_number }}">&raquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">&raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+</section>
+
+{% endblock %}

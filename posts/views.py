@@ -43,6 +43,14 @@ def discover(request):
     return render(request,'posts/post.html',context)
 
 
+def post_detail(request,post_id):
+    posts = get_object_or_404(Post, pk=post_id)             
+    context = {"post":posts}      
+    
+    return render(request,"posts/post_detail.html", context)
+
+
+
 def create_post(request):
     
     post_stuffs = Stuff.objects.filter(user=request.user) # Post.objects.filter(stuff__user=request.user)

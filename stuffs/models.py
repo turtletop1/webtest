@@ -4,7 +4,7 @@ from .choices_stuff import type,district_choices
 
 
 class Stuff(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     type = models.CharField(max_length=50 , choices=type.items(),default='')
     description=models.TextField(blank=True)

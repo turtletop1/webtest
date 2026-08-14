@@ -4,7 +4,7 @@
 
 <div class="container">
 
-    <h1 class="text-center mb-4">edit</h1>
+    <h2 class="display-5"><span class="material-symbols-outlined" style="font-size: 40px;">box_edit</span> Edit Stuff Info</h2>
 
     <form action="{% url 'stuffs:edit_stuff' stuff.id %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
@@ -12,39 +12,58 @@
         <div class="form-group row">
             {{ form.user }}
         </div>
-        <div class="form-group row">
-            <label for="name">stuff name</label>
-            {{ form.name }}
+         <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Stuff Name</label>
+            <div class="col-sm-10">
+                {{ form.name }}
+            </div>
         </div>
 
         <div class="form-group row">
-            <label for="type">type</label>
-            {{ form.type }}
+            <label for="type" class="col-sm-2 col-form-label">Type</label>
+            <div class="col-sm-10">
+                {{ form.type }}
+            </div>
         </div>
         <div class="form-group row">
-            <label for="district">district</label>
-            {{ form.district }}
+            <label for="district" class="col-sm-2 col-form-label">District</label>
+            <div class="col-sm-10">
+                {{ form.district }}
+            </div>    
         </div>
+
         <div class="form-group row">
-            <label for="location">location</label>
-            {{ form.location }}
+            <label for="location" class="col-sm-2 col-form-label">Location</label>
+            <div class="col-sm-10">
+                {{ form.location }}
+            </div>    
         </div>
+
         <div class="form-group row">
-            <label for="missing_date">missing date</label>
-            {{ form.missing_date }}
+            <label for="missing_date" class="col-sm-2 col-form-label">Missing Date</label>
+            <div class="col-sm-10">
+                {{ form.missing_date }}
+            </div>    
         </div>
+
         <div class="form-group row">
-            <label for="photo">photo</label>
-            {{ form.photo_main }}
+            <label for="photo" class="col-sm-2 col-form-label">Photo</label>
+            <div class="col-sm-10">
+                {{ form.photo_main }}
+            </div>
         </div>
+
         <div class="form-group row">
-            <label for="description">description</label>
-            {{ form.description }}
+            <label for="description" class="col-sm-2 col-form-label">description</label>
+            <div class="col-sm-10">
+                {{ form.description }}
+            </div>
         </div>
 
         <button class="btn btn-primary w-100" type="submit">submit</button>
-
     </form>
+
 </div>
+<br>
 
 {% endblock %}

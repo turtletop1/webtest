@@ -1,23 +1,29 @@
-<nav class="navbar navbar-expand-sm navbar-primary bg-light mb-3"> 
-    <div class="container">
-        <a href="{% url "pages:index" %}" class="navbar-brand">home</a>
+<nav class="navbar navbar-expand-sm navbar-primary bg-light mb-3 "> 
+    <div class="container ">
+        <a href="{% url "pages:index" %}" class="navbar-brand "><span class="material-symbols-outlined" style="font-size: 40px;">category_search</span></a>
     </div>
 
     <ul class="navbar-nav">
          
         <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">post</a>
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Post</a>
             <div class="dropdown-menu">
-                <a href="{% url "posts:post" %}" class="dropdown-item">all</a>
-                <a href="{% url "posts:missing" %}" class="dropdown-item">missing</a>
-                <a href="{% url "posts:discover" %}" class="dropdown-item">discover</a>
+                <a href="{% url "posts:post" %}" class="dropdown-item">All</a>
+                <a href="{% url "posts:missing" %}" class="dropdown-item">Missing</a>
+                <a href="{% url "posts:discover" %}" class="dropdown-item">Discover</a>
             </div>
         </li>
 
         {% if user.is_authenticated %}
+
         <li {% if '/stuffs/stuff/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-                <a href="{% url "stuffs:stuff" %}" class="nav-link">stuff</a>
+                <a href="{% url "stuffs:stuff" %}" class="nav-link">Stuff</a>
         </li>
+
+        <li {% if '/accounts/dashboard/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+                <a href="{% url "accounts:dashboard" %}" class="nav-link">User</a>
+        </li>
+
         <li class="nav-item" >
             <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}"><i class="fas fa-sign-in-alt"></i> Logout</a>
             <form action="{% url 'accounts:logout' %}" method="POST" id="logout">
@@ -29,7 +35,7 @@
         {% else %}
 
             <li {% if '/accounts/register/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-                <a href="{% url "accounts:register" %}" class="nav-link">register</a>
+                <a href="{% url "accounts:register" %}" class="nav-link">Register</a>
             </li>
             <li {% if '/accounts/login/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
                 <a href="{% url "accounts:login" %}" class="nav-link">Login</a>

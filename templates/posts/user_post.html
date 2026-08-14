@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-
+{% load static %}
 
 <div class="jumbotron">
         <div class="container">
-          <h1 class="display-3">Your Post</h1>
+          <h1 class="display-3"><span class="material-symbols-outlined" style="font-size: 55px;">article_person</span> Your Post</h1>
           <p>This is a Post page. you can select and manage your post</p>
         </div>
       </div>
@@ -26,7 +26,7 @@
             <div class="card" style="width:20rem;">
 
                 <h4 class="card-header">{{post.title}}</h4>
-                <img {% if post.stuff.photo_main %} src="{{ post.stuff.photo_main.url }}" {% else %} src="https://picsum.photos/300/200" {% endif %} alt="pic" class="card-img-top">
+                <img {% if post.stuff.photo_main %} src="{{ post.stuff.photo_main.url }}" {% else %} src='{% static "img/img.jpg" %}' {% endif %} alt="pic" class="card-img-top">
 
                 <div class="card-body">
                     
@@ -45,7 +45,7 @@
                     <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">article</span> Post type</h6>
                     {{post.type}} 
                     <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">box</span> Stuff type</h6>
+                    <h6 class="{{post.user.username}} card-subtitle text-primary"><span class="material-symbols-outlined">box</span> Stuff type</h6>
                     {{post.stuff.type}} 
                     <hr>
                     <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">clock_loader_20</span> Status</h6>

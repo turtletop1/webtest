@@ -4,62 +4,79 @@
 
 <div class="container">
 
+
     <form action="{%url 'posts:create_post'%}" method="POST" >
         {% csrf_token %}
         <input type="hidden" name="user_id" value="{{user.id}}"><br>
 
         <div class="form-group row">
-            <label for="name">stuff</label>
-                <select name="stuff" class="form-control" >
-            {% for post_stuff in post_stuffs %}
-                    <option value="{{post_stuffid}}">{{post_stuff}}</option>
-            {% endfor %}
+                <label for="name" class="col-sm-2 col-form-label">Select Stuff:</label>
+                <div class="col-sm-8">
+                    <select name="stuff" class="form-control" >
+                        {% for post_stuff in post_stuffs %}
+                        <option value="{{post_stuffid}}">{{post_stuff}}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                <a href="{% url "stuffs:create_stuff"%}" class="btn btn-outline-primary mb-2" role="button">
+                Create Stuff
+                </a>
+            </div>
+
+        <div class="form-group row">
+            <label for="title" class="col-sm-2 col-form-label">Title:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="issue_date" class="col-sm-2 col-form-label">Issue_Date:</label>
+            <div class="col-sm-10">
+                <input type="datetime-local" id="issue_date" name="issue_date" class="form-control" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="due_date" class="col-sm-2 col-form-label">Due Date:</label>
+            <div class="col-sm-10">
+                <input type="datetime-local" id="due_date" name="due_date" class="form-control" required>
+            </div>    
+        </div>
+        <div class="form-group row">
+            <label for="status" class="col-sm-2 col-form-label">Status:</label>
+            <div class="col-sm-10">
+                <select name="status" class="form-control">
+                    <option value="posting">posting</option>
+                    <option value="waiting">waiting</option>
                 </select>
-        </div>
-
-        <div class="form-group row">
-            <label for="title" >title</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
-        </div>
-
-        <div class="form-group row">
-            <label for="issue_date" >issue_date</label>
-            <input type="datetime-local" id="issue_date" name="issue_date" class="form-control" required>
-        </div>
-        <div class="form-group row">
-            <label for="due_date" >due_date</label>
-            <input type="datetime-local" id="due_date" name="due_date" class="form-control" required>
-        </div>
-        <div class="form-group row">
-            <label for="status" >status</label>
-            <input type="text" class="form-control" id="status" name="status" placeholder="Enter status" required>
+            </div>  
         </div>
 
         <div class="from-group row">
-            <label for="content">content</label>
+            <label for="content" class="col-sm-2 col-form-label">Content(Note):</label>
             <textarea name="content" id="content" class="form-control" cols="30" rows="10" required></textarea>
-        </div>
+        </div><br>
 
         <div class="form-group row" >
-            <label for="type" >type</label>
-            <select name="type" class="form-control">
-                <option value="missing">missing</option>
-                <option value="discover">discover</option>
-            </select>
+            <label for="type" class="col-sm-2 col-form-label">Post Type:</label>
+            <div class="col-sm-10">
+                <select name="type" class="form-control">
+                    <option value="missing">missing</option>
+                    <option value="discover">discover</option>
+                </select>
+            </div>
         </div>
 
-        <div class="form-group row">
-            <label for="reward" >reward</label>
-            <input type="checkbox" class="form-control" id="reward" name="reward" >
+        <div class="form-group row ">
+            <label for="reward" class="col-sm-2 col-form-label">Reward:</label>
+            <div class="col-sm-10">
+                <input type="checkbox" class="form-control" id="reward" name="reward" >
+            </div>
         </div>
-
-
-        <br>
-
         <hr>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button><br>
     </form>
-
+    <br>
 
 </div>
 

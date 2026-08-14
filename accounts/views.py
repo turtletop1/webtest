@@ -19,10 +19,13 @@ def login(request):
         
     return render(request, 'accounts/login.html')       
 
+
+
 def register(request):                                  
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
+        
         password = request.POST['password']
         password2 = request.POST['password2']
 
@@ -46,7 +49,18 @@ def register(request):
         return render(request,'accounts/register.html')  
 
 
+
 def logout(request):
     if request.method == "POST":                # 出於安全考量，通常建議登出操作使用 POST 方法
         auth.logout(request)                    # 清除 Session，完成登出操作
         return redirect('pages:index')
+
+
+
+def dashboard(request):
+    
+    user_contacts = User.objects.filter(id = request.user.id)    
+
+    context={"contacts":user_contacts}      
+
+    return render(request, 'accounts/dashboard.html',context)
