@@ -12,60 +12,98 @@
 
 <div class="container">
     <a href="{% url "stuffs:create_stuff"%}" class="btn btn-primary" role="button">
-        <span class="material-symbols-outlined">box_add</span> <b> create</b>
+        <span class="material-symbols-outlined align-middle fs-6">box_add</span> <b> create</b>
     </a>
     <hr>
-<div class="row">
+    <div class="row g-4">
     {% if stuffs %}
         {% for stuff in stuffs %}
+        <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+            <div class="card w-100 shadow-sm">
+                <div class="position-relative" style="height: 200px; overflow: hidden; background-color: #f8f9fa;">
 
-    <div class="col-sm-4">
-        <div class="card" style="width:20rem;">
-            <h4 class="card-header">{{stuff.name}}</h4>
+                    <span class="badge position-absolute top-0 end-0 m-2 px-3 py-2 shadow-sm bg-primary text-white">
+                        <span class="material-symbols-outlined align-middle fs-6">box</span> {{ stuff.type }}
+                    </span>
 
-            <img {% if stuff.photo_main %} src="{{ stuff.photo_main.url }}" {% else %} src='{% static "img/img.jpg" %}' {% endif %} alt="pic" class="card-img-top">
+                    <span class="badge position-absolute top-0 end-0 m-2 px-3 py-2 shadow-sm {% if stuff.type == 'pet' %}bg-warning{% elif stuff.type == 'object' %}bg-info{% else %}bg-success{% endif %}">
+                    {% if stuff.type == 'pet' %}
+                        <span class="material-symbols-outlined align-middle fs-6">pets</span> pet
+                    {% elif stuff.type == 'electronics' %}
+                        <span class="material-symbols-outlined align-middle fs-6">box</span> object
+                    {% else  %}
+                        <span class="material-symbols-outlined align-middle fs-6">people</span> people
+                    {% endif %}
+                    </span>
 
-            <div class="card-body">
-                <h6 class="card-subtitle text-muted">type</h6>
-                    {{stuff.type}} 
-                <hr><h6 class="card-subtitle text-muted">missing days</h6>
-                    {{stuff.missing_date}} 
-                <hr>
-                <h6 class="card-subtitle text-muted">location or district</h6>
-                    {{stuff.location}} | {{stuff.district}} 
-                <hr>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#stuff_detail{{stuff.id}}">
-                    detail
+
+                    <img {% if stuff.photo_main %} src="{{ stuff.photo_main.url }}" {% else %} src="{% static 'img/img.jpg' %}" {% endif %} alt="pic" class="card-img-top w-100 h-100" style="object-fit: cover;">
+                </div>
+
+                <h4 class="card-header">{{ stuff.name }}</h4>    
+
+                <div class="card-body">
+                    <h6 class="card-subtitle text-primary ">
+                        <span class="material-symbols-outlined align-middle fs-6">box</span> Type
+                    </h6>
+                    {{ stuff.type }} 
+                    <hr>
+
+                    <h6 class="card-subtitle text-primary">
+                        <span class="material-symbols-outlined align-middle fs-6">calendar_month</span> Missing Date
+                    </h6>
+                    {{ stuff.missing_date }} 
+                    <hr>
+
+                    <h6 class="card-subtitle text-primary">
+                        <span class="material-symbols-outlined align-middle fs-6">location_on</span> Location or District
+                    </h6>
+                    {{ stuff.location }} | {{ stuff.district }} 
+                    <hr>
+
+                    <button type="button" class="btn btn-outline-info font-weight-bold" data-toggle="modal" data-target="#stuff_detail{{ stuff.id }}">
+                        Detail
                     </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="stuff_detail{{stuff.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+
+                    <div class="modal fade" id="stuff_detail{{ stuff.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle{{ stuff.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Description</h5>
+                                    <h5 class="modal-title" id="exampleModalLongTitle{{ stuff.id }}">Description</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                        <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body" style="white-space: pre-wrap;">{{stuff.description}}</div>
+                                <div class="modal-body text-break" style="white-space: pre-wrap;">{{ stuff.description }}</div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <hr>
-                <a href="{% url 'stuffs:edit_stuff' stuff.id%}" class="btn btn-success" role="button">
-                    edit
-                </a>
-                <button class="btn btn-danger" data-url="{%url 'stuffs:delete_stuff' stuff.id %}" data-toggle="modal" data-target="#deleteConfirmModal" data-id="{{stuff.id}}" >Delete</button>
-
-            </div>
-        </div><br>
-    </div>
-{% endfor %}
-{% endif %}
+                    <hr>
+                    <a href="{% url 'stuffs:edit_stuff' stuff.id %}" class="btn btn-success  font-weight-bold" role="button">
+                        <span class="material-symbols-outlined align-middle fs-6">edit</span> Edit
+                    </a>
+                    <button class="btn btn-danger font-weight-bold" 
+                            data-url="{% url 'stuffs:delete_stuff' stuff.id %}" 
+                            data-toggle="modal" 
+                            data-target="#deleteConfirmModal" 
+                            data-id="{{ stuff.id }}">
+                        <span class="material-symbols-outlined align-middle fs-6">delete</span>
+                        Delete
+                    </button>
+                </div>
+            </div>       
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12 text-center py-5">
+            <p class="text-muted fs-5">No stuff records available right now.</p>
+        </div>
+    {% endif %}
 </div>
+
 
         <div class="modal fade" id="deleteConfirmModal" role="dialog">
             <div class="modal-dialog">

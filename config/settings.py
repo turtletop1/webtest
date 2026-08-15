@@ -30,6 +30,7 @@ LOCAL_APPS = [                      #add new page
     "accounts.apps.AccountsConfig",
     "posts.apps.PostsConfig",
     "stuffs.apps.StuffsConfig",
+    "comments.apps.CommentsConfig",
 ]
 
 THIRD_PARTY_APPS = ["debug_toolbar", "widget_tweaks","taggit"]

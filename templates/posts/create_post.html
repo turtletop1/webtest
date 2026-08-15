@@ -4,7 +4,7 @@
 
 <div class="container">
 
-
+<h2 class="display-5"><span class="material-symbols-outlined" style="font-size: 40px;">post_add</span> Create Post</h2>
     <form action="{%url 'posts:create_post'%}" method="POST" >
         {% csrf_token %}
         <input type="hidden" name="user_id" value="{{user.id}}"><br>

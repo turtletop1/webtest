@@ -3,120 +3,190 @@
 {% load static %}
 
 
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light" style="background-image: url('{% static "img/index.png" %}'); background-size: cover;">
-        <div class="col-md-8 p-lg-5 mx-auto my-5" style="background : white; opacity: 0.85;">
-            <h1 class="display-4 font-weight-normal"><span class="material-symbols-outlined" style="font-size: 45px;">category_search</span> Lost and Found</h1>
-            <p class="lead font-weight-normal">A fast, secure platform to report missing belongings or post found items in your campus/community</p>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#post_detail">
-                <span class="material-symbols-outlined">search</span> <b>Search</b>
-            </button>
-        </div>
-        <div class="product-device box-shadow d-none d-md-block"></div>
-        <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
-        </div>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="post_detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Search</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form action="{% url 'posts:search' %}">
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Keyword:</label>
-                                        <input type="text" name="keywords" class="form-control" value="{{values.keywords}}" >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Missing date:</label>
-                                        <input type="date" name="missing_date" class="form-control" value="{{values.missing_date}}" >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Status:</label>
-                                        <input type="text" name="status" class="form-control" value="{{values.status}}" >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Type:</label>
-                                        <select name="type" class="form-control">
-                                            <option value="">-- Select Type --</option>
-                                            <option value="missing" {% if values.type == 'missing' %}selected{% endif %}>
-                                                missing
-                                            </option>
-                                            <option value="discover" {% if values.type == 'discover' %}selected{% endif %}>
-                                                discover
-                                            </option>
-                                        </select>
-                                    </div>
-
-                            <button class="btn btn-success btn-block mt-4" type="submit">Search </button>
-                                </div>
-                            </form>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-<div class="container">
-    <hr>
-    <h1>Posts</h1><br>
-<div class="row">
-        {% if postss %}
-        {% for post in postss %}
-
-        <div class="col-sm-4">
-            <div class="card" style="width:20rem;">
-
-                <h4 class="card-header">{{post.title}}</h4>
-                 <img {% if post.stuff.photo_main %} src="{{ post.stuff.photo_main.url }}" {% else %} src="https://picsum.photos/300/200" {% endif %} alt="pic" class="card-img-top">
-
-                <div class="card-body">
-                    
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">account_circle</span> User Name</h6>
-                    {{post.user.username}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Issue Date</h6>
-                    {{post.issue_date}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Due Date</h6>
-                    {{post.due_date}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Missing Date</h6>
-                    {{post.stuff.missing_date}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">article</span> Post Type</h6>
-                    {{post.type}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">box</span> Stuff Type</h6>
-                    {{post.stuff.type}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">clock_loader_20</span> Post Status</h6>
-                    {{post.status}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">payments</span> Reward</h6>
-                    {% if post.reward %} ✅  {% else %}  ❌  {% endif %}
-                    <hr>
-
-                    <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-success btn-md " role="button" aria-pressed="true">
-                        View Detail
-                    </a>
-
-                </div>
-            </div>       
-        </div>
-        {% endfor %}
-    {% endif %}
+<div class="position-relative overflow-hidden p-3 p-md-5 text-center bg-light" 
+     style="background-image: url('{% static "img/index.png" %}'); background-size: cover; background-position: center; min-height: 400px;">
+    
+    <div class="col-md-8 p-lg-5 mx-auto my-4 rounded shadow-sm" 
+         style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px);">
+        
+        <h1 class="display-4 fw-bold text-dark mb-3 d-flex align-items-center justify-content-center gap-2">
+            <span class="material-symbols-outlined" style="font-size: 48px; color: #0d6efd;">category_search</span> 
+            Lost and Found
+        </h1>
+        <p class="lead font-weight-normal text-secondary mb-4">
+            A fast, secure platform to report missing belongings or post found items in your campus & community.
+        </p>
+        <button type="button" class="btn btn-primary btn-lg px-4 shadow-sm" data-toggle="modal" data-target="#post_detail">
+            <span class="material-symbols-outlined align-middle">search</span> 
+            <span class="align-middle">Search Items</span>
+        </button>
     </div>
-    <hr>
-    <h1>About our website</h1>
+</div>
+
+<!-- Search Modal -->
+<div class="modal fade" id="post_detail" tabindex="-1" role="dialog" aria-labelledby="searchModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="searchModalTitle">
+                    <span class="material-symbols-outlined align-middle">tune</span> Filter & Search
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url 'posts:search' %}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Keyword</label>
+                        <input type="text" name="keywords" class="form-control" placeholder="Search title or item..." value="{{values.keywords}}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Missing Date</label>
+                        <input type="date" name="missing_date" class="form-control" value="{{values.missing_date}}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Status</label>
+                        <input type="text" name="status" class="form-control" placeholder="e.g. Active, Solved" value="{{values.status}}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Post Type</label>
+                        <select name="type" class="form-select form-control">
+                            <option value="">-- All Types --</option>
+                            <option value="missing" {% if values.type == 'missing' %}selected{% endif %}>Missing (尋物)</option>
+                            <option value="discover" {% if values.type == 'discover' %}selected{% endif %}>Found (拾獲)</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary btn-block w-100 mt-4" type="submit">Apply Filter</button>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="py-5 bg-light my-4">
     <div class="container">
-        cc
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">How It Works</h2>
+            <p class="text-muted">Explore the key features designed to help you recover lost belongings easily.</p>
+        </div>
+
+        <div class="row g-4 text-center">
+           
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-3">
+                    <div class="card-body">
+                        <div class="text-primary mb-3">
+                            <span class="material-symbols-outlined" style="font-size: 50px;">manage_search</span>
+                        </div>
+                        <h5 class="card-title fw-bold">Report Lost Items</h5>
+                        <p class="card-text text-muted">
+                            Found something missing? Post a lost item report with details on its features and missing time to harness community support for its return.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-3">
+                    <div class="card-body">
+                        <div class="text-success mb-3">
+                            <span class="material-symbols-outlined" style="font-size: 50px;">front_hand</span>
+                        </div>
+                        <h5 class="card-title fw-bold">Post Found Belongings</h5>
+                        <p class="card-text text-muted">
+                            Found someone's lost item? Quickly post a &quot;Found Notice&quot; so the owner can reach out to claim it and spread the spirit of community support!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-3">
+                    <div class="card-body">
+                        <div class="text-warning mb-3">
+                            <span class="material-symbols-outlined" style="font-size: 50px;">inventory_2</span>
+                        </div>
+                        <h5 class="card-title fw-bold">Item Inventory (Stuff)</h5>
+                        <p class="card-text text-muted">
+                            Pre-build and save your personal items database (Stuff Library). If you unfortunately lose something in the future, you can load your details and publish a post with just one click!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">Recent Posts</h2>
+        <span class="badge badge-info bg-primary px-3 py-2">Latest Updates</span>
+    </div>
+
+    <div class="row g-4">
+        {% if postss %}
+            {% for post in postss %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+                <div class="card w-100 shadow-sm">
+                    <div class="position-relative" style="height: 200px; overflow: hidden; background-color: #f8f9fa;">
+            
+            <span class="badge position-absolute top-0 end-0 m-2 px-3 py-2 shadow-sm {% if post.type == 'missing' %}bg-danger{% else %}bg-success{% endif %}">
+                {% if post.type == 'missing' %}
+                    <span class="material-symbols-outlined align-middle fs-6">search</span> missing
+                {% else %}
+                    <span class="material-symbols-outlined align-middle fs-6">front_hand</span> discover
+                {% endif %}
+            </span>
+
+            <img {% if post.stuff.photo_main %} src="{{ post.stuff.photo_main.url }}" {% else %} src="{% static "img/img.jpg" %}" {% endif %} 
+                alt="pic" class="card-img-top w-100 h-100" style="object-fit: cover;">
+        </div>
+
+            <h4 class="card-header">{{post.title}}</h4>    
+                    <div class="card-body">
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">account_circle</span> User Name</h6>
+                        {{post.user.username}} 
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Issue Date</h6>
+                        {{post.issue_date}} 
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Due Date</h6>
+                        {{post.due_date}} 
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Missing Date</h6>
+                        {{post.stuff.missing_date}} 
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">box</span> Stuff Type</h6>
+                        {{post.stuff.type}} 
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">clock_loader_20</span> Post Status</h6>
+                        {{post.status}} 
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">payments</span> Reward</h6>
+                        {% if post.reward %} ✅ {% else %} ❌ {% endif %}
+                        <hr>
+
+                        <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
+                            View Detail
+                        </a>
+                    </div>
+                </div>       
+            </div>
+            
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted fs-5">No posts available right now.</p>
+            </div>
+        {% endif %}
     </div>
 
 </div>

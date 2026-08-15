@@ -1,11 +1,13 @@
+
 from django.shortcuts import render ,get_object_or_404 , redirect
-from .models import Post , Stuff
+from .models import Post , Stuff 
+from comments.models import Comment
 from django.core.paginator import Paginator
 from .forms import PostForm 
-from django.contrib.auth.models import User
 from django.db.models import Q
 from django.db.models import F
 from django.contrib import messages
+from django.utils import timezone
 
 
 from .choices_post import type
@@ -32,6 +34,8 @@ def missing(request):
     context = {"postss": paged_listings}
     return render(request,'posts/post.html',context)
 
+
+
 def discover(request):
     postsss = Post.objects.order_by('-issue_date').filter(type='discover',status='posting')
 
@@ -43,11 +47,28 @@ def discover(request):
     return render(request,'posts/post.html',context)
 
 
+
 def post_detail(request,post_id):
-    posts = get_object_or_404(Post, pk=post_id)             
-    context = {"post":posts}      
+    posts = get_object_or_404(Post, pk=post_id)           
+    comments = Comment.objects.order_by('-date').filter(post = post_id)
+    
+    context = {"post":posts,"comments":comments}      
     
     return render(request,"posts/post_detail.html", context)
+
+
+
+def post_comment_create(request):
+    if request.method == "POST":
+        user_id = request.POST['user_id']
+        post_id = request.POST['post_id']
+        content = request.POST['content']
+
+        comment_data = Comment(post_id=post_id ,content=content ,user_id=user_id)
+        comment_data.save()
+        messages.success(request,'Your request have been submitted')
+
+    return redirect('posts:post_detail', post_id=post_id)
 
 
 

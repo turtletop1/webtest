@@ -6,7 +6,7 @@ class Comment (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content=models.TextField(blank=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         post_user_c = self.post.title + "_" + self.user.username

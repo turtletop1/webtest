@@ -12,8 +12,8 @@
 
     <div class="container">
     {% if user.is_authenticated %}
-    <a href={% url "posts:create_post" %} class="btn btn-outline-primary" role="button">
-        create
+    <a href={% url "posts:create_post" %} class="btn btn-primary font-weight-bold" role="button">
+        <span class="material-symbols-outlined align-middle fs-6">post_add</span> Create
     </a>
     {% endif %}
 
@@ -30,87 +30,40 @@
 
                 <div class="card-body">
                     
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">account_circle</span> User name</h6>
+                    <h6 class="card-subtitle text-primary "><span class="material-symbols-outlined align-middle fs-6">account_circle</span> User name</h6>
                     {{post.user.username}} 
                     <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Issue date</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">date_range</span> Issue date</h6>
                     {{post.issue_date}} 
                     <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Due date</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">date_range</span> Due date</h6>
                     {{post.due_date}} 
                     <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">date_range</span> Missing date</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">date_range</span> Missing date</h6>
                     {{post.stuff.missing_date}} 
                     <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">article</span> Post type</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">article</span> Post type</h6>
                     {{post.type}} 
                     <hr>
-                    <h6 class="{{post.user.username}} card-subtitle text-primary"><span class="material-symbols-outlined">box</span> Stuff type</h6>
+                    <h6 class="{{post.user.username}} card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">box</span> Stuff type</h6>
                     {{post.stuff.type}} 
                     <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">clock_loader_20</span> Status</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">clock_loader_20</span> Status</h6>
                     {{post.status}} 
                     <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined">payments</span> Reward</h6>
+                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">payments</span> Reward</h6>
                     {% if post.reward %} ✅  {% else %}  ❌  {% endif %}
                     <hr>
 
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#post_detail{{post.stuff.id}}">
-                    Info detail
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="post_detail{{post.stuff.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Description</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">User email:</label>
-                                        <input type="text" class="form-control" value="{{post.user.email}}" readonly>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Stuff name:</label>
-                                        <input type="text" class="form-control" value="{{post.stuff.name}}" readonly>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Location:</label>
-                                        <input type="text" class="form-control" value="{{post.stuff.location}}" readonly>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">District:</label>
-                                        <input type="text" class="form-control" value="{{post.stuff.district}}" readonly>
-                                    </div>
-                                    <hr>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Description:</label>
-                                        <div class="text-start" style="white-space: pre-wrap;" id="message-text" >{{post.stuff.description}}</div>
-                                    </div>
-                                    <hr>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="text-muted">Note:</label>
-                                        <div class="text-start" style="white-space: pre-wrap;" id="message-text" >{{post.content}}</div>
-                                    </div>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <a href="{% url 'posts:edit_post' post.id%}" class="btn btn-success" role="button">
-                    edit
+                    <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
+                            View Detail
                     </a>
-                    <button class="btn btn-danger" data-url="{%url 'posts:delete_post' post.id %}" data-toggle="modal" data-target="#deleteConfirmModal" data-id="{{post.id}}" >Delete</button>
+
+                    <hr>
+                    <a href="{% url 'posts:edit_post' post.id%}" class="btn btn-success font-weight-bold" role="button">
+                    <span class="material-symbols-outlined align-middle fs-6">edit</span> Edit
+                    </a>
+                    <button class="btn btn-danger font-weight-bold" data-url="{%url 'posts:delete_post' post.id %}" data-toggle="modal" data-target="#deleteConfirmModal" data-id="{{post.id}}" ><span class="material-symbols-outlined align-middle fs-6">delete</span> Delete</button>
 
                 </div>
             </div>       

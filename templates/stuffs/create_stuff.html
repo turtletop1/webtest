@@ -11,14 +11,14 @@
         <input type="hidden" name="user_id" value="{{user.id}}"><br>
 
         <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Stuff Name</label>
+            <label for="name" class="col-sm-2 col-form-label font-weight-bold">Stuff Name</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="name" id="name" placeholder="Enter stuff name" required>
             </div>
         </div>
 
         <div class="form-group row">
-            <label for="type" class="col-sm-2 col-form-label">Stuff Type</label>
+            <label for="type" class="col-sm-2 col-form-label font-weight-bold">Stuff Type</label>
             <div class="col-sm-10">
                 <select name="type" class="form-control" >
                     {% for key,value in type.items %}
@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group row">
-            <label for="district" class="col-sm-2 col-form-label">Missing District</label>
+            <label for="district" class="col-sm-2 col-form-label font-weight-bold">Missing District</label>
             <div class="col-sm-10">
                 <select name="district" class="form-control">
                     {% for key,value in district_choices.items %}
@@ -40,21 +40,21 @@
         </div>
 
         <div class="form-group row">
-            <label for="location" class="col-sm-2 col-form-label">Missing Location</label>
+            <label for="location" class="col-sm-2 col-form-label font-weight-bold">Missing Location</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
             </div>
         </div>
 
         <div class="form-group row">
-            <label for="missing_date" class="col-sm-2 col-form-label">Missing Date</label>
+            <label for="missing_date" class="col-sm-2 col-form-label font-weight-bold">Missing Date</label>
             <div class="col-sm-10">
                 <input type="datetime-local" id="missing_date" name="missing_date" class="form-control" required>
             </div>
         </div>
         
         <div class="from-group row">
-            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <label for="description" class="col-sm-2 col-form-label font-weight-bold">Description</label>
             <div class="col-sm-10">
                 <textarea name="description" id="description" class="form-control" cols="30" rows="10" required></textarea>
             </div>
@@ -62,7 +62,7 @@
 
         <br>
         <div class="from-group row">
-            <label for="Photo" class="col-sm-2 col-form-label">Photo</label>
+            <label for="Photo" class="col-sm-2 col-form-label font-weight-bold">Photo</label>
             <div class="col-sm-10">
                 <div class="custom-file row">
                     <input type="file" class="custom-file-input" id="photo" name="photo">
