@@ -15,6 +15,11 @@
     <h2 class="text-primary">Personal info <span class="material-symbols-outlined align-middle fs-6">account_circle</span></h2>
     <hr>
     <div class="row">
+       <div class="col-4 text"><span class="material-symbols-outlined align-middle fs-6">people</span> User Name</div>
+            <div class="col-6"> {{ user.username }} </div>
+        </div>
+    <hr>
+    <div class="row">
        <div class="col-4 text"><span class="material-symbols-outlined align-middle fs-6">badge</span> First Name </div>
         <div class="col-6"> {{ user.first_name }} </div>
     </div>
@@ -30,7 +35,9 @@
     </div>
     <hr>
     <div class="row">
-        <a href="#" class="btn btn-primary">Change Your Info</a>
+        <a href="{% url 'accounts:change_user_info' %}" class="btn btn-success  font-weight-bold" role="button">
+            <span class="material-symbols-outlined align-middle fs-6">person_edit</span> Change Your Info
+        </a>
     </div>
     <hr>
 </div>

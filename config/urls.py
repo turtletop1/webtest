@@ -26,6 +26,7 @@ urlpatterns = [
     path('accounts/',include("accounts.urls",namespace='accounts')),
     path('posts/',include("posts.urls",namespace='posts')),
     path('stuffs/',include("stuffs.urls",namespace='stuffs')),
+    path('comments/',include("comments.urls",namespace='comments')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+ debug_toolbar_urls()
 
 

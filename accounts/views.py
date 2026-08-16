@@ -2,6 +2,7 @@ from django.shortcuts import render , redirect
 from django.contrib.auth.models import User
 from django.contrib import messages ,auth
 
+# https://docs.djangoproject.com/en/6.0/ref/contrib/auth/
 
 def login(request):                           
     if request.method == "POST":
@@ -26,6 +27,9 @@ def register(request):
         username = request.POST['username']
         email = request.POST['email']
         
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+
         password = request.POST['password']
         password2 = request.POST['password2']
 
@@ -38,7 +42,7 @@ def register(request):
                     messages.error(request,'That email is being used')
                     return render(request, 'accounts/register.html')
                 else:
-                    user = User.objects.create_user(username=username,email=email.lower(),password=password)
+                    user = User.objects.create_user(username=username,email=email.lower(),password=password,first_name=first_name,last_name=last_name)
                     user.save()
                     messages.success(request,'you are now registered and can log in')
                     return redirect('accounts:login')
@@ -64,3 +68,44 @@ def dashboard(request):
     context={"contacts":user_contacts}      
 
     return render(request, 'accounts/dashboard.html',context)
+
+
+
+def change_user_info(request):
+    
+    user = request.user    
+    context = {'user': user}
+
+    if request.method == 'POST':
+        user_id = request.POST['user_id']
+        email = request.POST['email']
+            
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+    
+        password = request.POST['password']
+        old_password = request.POST['password2']
+
+        if user.check_password(old_password):
+
+            user.email = email
+            user.first_name = first_name
+            user.last_name = last_name
+
+            password_changed = False
+            if password:
+                user.set_password(password) 
+                password_changed = True
+
+            user.save()
+
+            if password_changed:
+                auth.update_session_auth_hash(request, user)
+
+            messages.success(request, 'Your profile has been successfully updated!')
+            return redirect('accounts:change_user_info')
+        else:   
+            messages.error(request,'Passwords do not match')
+            return redirect('accounts:change_user_info')
+
+    return render(request, 'accounts/change_user_info.html', context)

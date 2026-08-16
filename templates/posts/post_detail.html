@@ -15,11 +15,9 @@
 
 <section id="listing" class="py-4">
   <div class="container">
-    <a href="{% url 'posts:post' %}" class="btn btn-primary mb-4"><span class="material-symbols-outlined">
-arrow_back_2
-</span> Back To Posts</a>
+    <a href="{% url 'posts:post' %}" class="btn btn-primary mb-4"><span class="material-symbols-outlined">arrow_back_2</span> Back To Posts</a>
 
-    <div class="row">
+    <div class="row ">
         <div class="col-md-9">
         
         {% if post.stuff.photo_main %}
@@ -31,45 +29,79 @@ arrow_back_2
 
         <div class="row mb-5 fields">
             <div class="col-md-6">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item text-secondary">
-                    <i class="fas fa-calendar-alt"></i> Issue Date:
-                    <span class="float-right text-dark">{{ post.issue_date|default:"N/A" }}</span>
-                </li>
-                <li class="list-group-item text-secondary">
-                    <i class="fas fa-calendar-check"></i> Due Date:
-                    <span class="float-right text-dark">{{ post.due_date|default:"N/A" }}</span>
-                </li>
-                <li class="list-group-item text-secondary">
-                    <i class="fas fa-calendar-times"></i> Missing Date:
-                    <span class="float-right text-dark">{{ post.stuff.missing_date|default:"N/A" }}</span>
-                </li>
-            </ul>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-calendar-alt"></i> Issue Date:
+                        <span class="float-right text-dark">{{ post.issue_date|default:"N/A" }}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-calendar-check"></i> Due Date:
+                        <span class="float-right text-dark">{{ post.due_date|default:"N/A" }}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-calendar-times"></i> Missing Date:
+                        <span class="float-right text-dark">{{ post.stuff.missing_date|default:"N/A" }}</span>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-info-circle"></i> Status:
+                        <span class="float-right badge badge-primary p-2">{{ post.status }}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-boxes"></i> Stuff Type:
+                        <span class="float-right text-dark">{{ post.stuff.type }}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-gift"></i> Reward Offered:
+                        <span class="float-right">
+                        {% if post.reward %}
+                        <span class="badge badge-success">Yes</span>
+                        {% else %}
+                        <span class="badge badge-secondary">No</span>
+                        {% endif %}
+                    </span>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div class="col-md-6">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item text-secondary">
-                    <i class="fas fa-info-circle"></i> Status:
-                    <span class="float-right badge badge-primary p-2">{{ post.status }}</span>
-                </li>
-                <li class="list-group-item text-secondary">
-                    <i class="fas fa-boxes"></i> Stuff Type:
-                    <span class="float-right text-dark">{{ post.stuff.type }}</span>
-                </li>
-                <li class="list-group-item text-secondary">
-                    <i class="fas fa-gift"></i> Reward Offered:
-                    <span class="float-right">
-                    {% if post.reward %}
-                    <span class="badge badge-success">Yes</span>
-                    {% else %}
-                    <span class="badge badge-secondary">No</span>
-                    {% endif %}
-                </span>
-                </li>
-            </ul>
+        <div class="row mb-5 fields">
+            <div class="col">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-info-circle"></i> Location:
+                        <span class="float-right text-dark">{{ post.stuff.location }}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-boxes"></i> District:
+                        <span class="float-right text-dark">{{ post.stuff.district }}</span>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
+
+
+        <div class="row mb-5 fields">
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-calendar-alt"></i> User Name:
+                        <span class="float-right text-dark">{{ post.user.username|default:"N/A" }}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                        <i class="fas fa-calendar-check"></i> User Email:
+                        <span class="float-right text-dark">{{ post.user.email|default:"N/A" }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    
+
 
         <div class="row mb-5">
             <div class="col-md-12">
@@ -102,15 +134,53 @@ arrow_back_2
                                         <small class="text-muted">{{ comment.date|date:"Y-m-d H:i" }}</small>
                                     </div>
                                     <div class="px-2" style="white-space: pre-wrap; word-break: break-word;">{{ comment.content }}</div>
+
+                                {%if comment.user_id == user.id%}
+
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-outline-info font-weight-bold " data-toggle="modal" data-target="#comment_detail{{ comment.id }}">
+                                            Edit
+                                        </button>
+                                    </div>
+
+                                    <div class="modal fade" id="comment_detail{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle{{ comment.id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle{{ comment.id }}">content</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="{% url 'comments:edit_comment'  comment.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                
+                                                    <textarea class="form-control" rows="6"  name="content" style="white-space: pre-wrap; resize: none;">{{ comment.content }}</textarea>
+                                                
+
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
                                 </div>
                             {% endfor %}
+                            
                         {% else %}
                             <p class="text-muted mb-0">No comments yet. Be the first to comment!</p>
                         {% endif %}
                     </div>
                 </div>
+                
+
             </div>
         </div>
+
+    
         {% if user.is_authenticated %}
         <div class="row mb-5">
             <div class="col-md-12">
@@ -125,9 +195,9 @@ arrow_back_2
                             <div class="mb-3">
                                 <textarea name="content" 
                                         class="form-control" 
-                                        rows="3" 
+                                        rows="5" 
                                         placeholder="Type your message here..." 
-                                        style="resize: none;" 
+                                        style="resize: none; white-space: pre-wrap;" 
                                         required></textarea>
                             </div>
                             

@@ -31,11 +31,18 @@
                         </a>
                     </li>
 
+                    <li class="nav-item {% if '/comments/comment' in request.path %}active{% endif %}">
+                        <a href="{% url 'comments:comment' %}" class="nav-link d-flex align-items-center">
+                            <span class="material-symbols-outlined mr-1 fs-6">comment</span> Comment
+                        </a>
+                    </li>
+
                     <li class="nav-item {% if '/accounts/dashboard' in request.path %}active{% endif %}">
                         <a href="{% url 'accounts:dashboard' %}" class="nav-link d-flex align-items-center">
                             <span class="material-symbols-outlined mr-1 fs-6">account_circle</span> {{ user.username }}
                         </a>
                     </li>
+
 
                     <li class="nav-item ml-md-2">
                         <a class="nav-link text-danger d-flex align-items-center" href="javascript:{document.getElementById('logout').submit()}">

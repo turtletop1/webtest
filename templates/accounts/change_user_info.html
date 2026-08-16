@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3"><span class="material-symbols-outlined align-middle fs-6" style="font-size: 55px;">person_edit</span> Edit your info</h1>
+    </div>
+</div>
+
+<div class="container">
+
+    <form action="{% url 'accounts:change_user_info' %}" method="POST">
+        {% csrf_token %}
+        <h2 class="text-primary">Personal info <span class="material-symbols-outlined align-middle fs-6">account_circle</span></h2>
+        <hr>
+
+        <input type="hidden" name="user_id"  class="form-control" value="{{ user.id }} " readonly />
+
+        <div class="row">
+            <div class="col-4 text"><span class="material-symbols-outlined align-middle fs-6">people</span> User Name</div>
+                <div class="col-6"> 
+                    {{ user.username }} 
+                </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-4 text"><span class="material-symbols-outlined align-middle fs-6">badge</span> First Name </div>
+                <div class="col-6"> 
+                    <input type="text" name="first_name" id="first_name" class="form-control" value="{{ user.first_name }} " required />
+                </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-4"><span class="material-symbols-outlined align-middle fs-6">badge</span> Last Name </div>
+                <div class="col-6"> 
+                    <input type="text" name="last_name" id="last_name" class="form-control" value="{{ user.last_name }} " required />
+                </div>
+        </div>
+
+        <hr>
+        <div class="row">
+        <div class="col-4"><span class="material-symbols-outlined align-middle fs-6">mail</span> Your Email </div>
+            <div class="col-6"> 
+                <input type="text" name="email" id="email" class="form-control" value="{{ user.email }} " required />
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+        <div class="col-4"><span class="material-symbols-outlined align-middle fs-6">password</span>Verify Old Password </div>
+            <div class="col-6"> 
+                <input type="password" name="password2" id="password2" class="form-control" value="" required />
+            </div>
+        </div>
+        
+        <hr>
+
+        <div class="row">
+        <div class="col-4"><span class="material-symbols-outlined align-middle fs-6">password</span>New Password </div>
+            <div class="col-6"> 
+                <input type="password" name="password" id="password" class="form-control" value="" required />
+            </div>
+        </div>
+        <hr>
+
+
+        <div class="row">
+            <button class="btn btn-primary w-25" type="submit"><span class="material-symbols-outlined align-middle fs-6">edit</span> Submit</button>
+        </div>
+    </form>
+    <br>
+</div>
+
+{% endblock %}

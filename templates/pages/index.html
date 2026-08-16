@@ -45,10 +45,31 @@
                         <label class="form-label text-muted">Missing Date</label>
                         <input type="date" name="missing_date" class="form-control" value="{{values.missing_date}}">
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Stuff name</label>
+                        <input type="date" name="stuff_name" class="form-control" value="{{values.stuff_name}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted">District</label>
+                        <select name="district" class="form-select form-control">
+                            <option value="">-- All Districts --</option>
+                            {% if district_choices %}
+                                {% for key, value in district_choices.items %}
+                                    <option value="{{ key }}" {% if values.district == key %}selected{% endif %}>
+                                        {{ value }}
+                                    </option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label text-muted">Status</label>
                         <input type="text" name="status" class="form-control" placeholder="e.g. Active, Solved" value="{{values.status}}">
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label text-muted">Post Type</label>
                         <select name="type" class="form-select form-control">
@@ -57,6 +78,7 @@
                             <option value="discover" {% if values.type == 'discover' %}selected{% endif %}>Found (拾獲)</option>
                         </select>
                     </div>
+
                     <button class="btn btn-primary btn-block w-100 mt-4" type="submit">Apply Filter</button>
                 </div>
             </form>

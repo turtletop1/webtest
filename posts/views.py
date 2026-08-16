@@ -7,7 +7,6 @@ from .forms import PostForm
 from django.db.models import Q
 from django.db.models import F
 from django.contrib import messages
-from django.utils import timezone
 
 
 from .choices_post import type
@@ -120,7 +119,6 @@ def edit_post(request,post_id):
         if form.is_valid():
             form.save()
             return redirect('posts:post')
-        
     else:
         form = PostForm(instance=post,user=post.user)
 
@@ -150,6 +148,11 @@ def search(request):
         if missing_date:
             queryset_list = queryset_list.filter(stuff__missing_date__date=missing_date) # use fk and only __date format
 
+    if 'stuff_name' in request.GET:                           
+            stuff_name = request.GET['stuff_name']
+            if stuff_name:
+                queryset_list = queryset_list.filter(stuff__stuff_name=stuff_name)
+
     if 'status' in request.GET:                           
             status = request.GET['status']
             if status:
@@ -159,6 +162,7 @@ def search(request):
         type = request.GET['type']
         if type:
             queryset_list = queryset_list.filter(type__iexact=type)
+
 
     paginator = Paginator(queryset_list, 6)            
     page_number = request.GET.get('page')              
