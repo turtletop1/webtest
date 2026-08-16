@@ -1,13 +1,18 @@
 from django.shortcuts import render,get_object_or_404 ,redirect
 from .models import Comment
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 def comment(request):
 
     comments = Comment.objects.order_by('-date').filter(user=request.user) 
 
-    context = {"comments":comments}      
+    paginator = Paginator(comments, 6)            
+    page_number = request.GET.get('page')              
+    paged_listings = paginator.get_page(page_number)
+                
+    context = {"comments": paged_listings}
         
     return render(request,"comments/comment.html", context)
 

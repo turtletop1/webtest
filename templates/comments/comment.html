@@ -57,6 +57,41 @@
             </div>
         </div>
 
+        {% if comments %}
+        <div class="col-md-12">
+            <ul class="pagination">
+                {% if comments.has_previous %}
+                <li class="page-item">
+                    <a  class="page-link" href="?page={{comments.previous_page_number}}">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for i in comments.paginator.page_range %}
+                {% if i == comments.number %}
+                <li class="page-item">
+                    <a class="page-link">{{i}}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{i}}">{{i}}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if comments.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{comments.next_page_number}}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+        </div>
 
 </div>
 

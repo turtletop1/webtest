@@ -5,5 +5,6 @@ type = {
 
 status = {
     "posting":"posting",
-    "waiting":"waiting"
+    "waiting":"waiting",
+    "finished":"finished"
 }

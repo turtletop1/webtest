@@ -75,6 +75,8 @@ def create_post(request):
     
     post_stuffs = Stuff.objects.filter(user=request.user) # Post.objects.filter(stuff__user=request.user)
 
+    context = {'post_stuffs': post_stuffs}
+
     if request.method == "POST":
         stuff = request.POST['stuff']
         title = request.POST['title']
@@ -85,14 +87,15 @@ def create_post(request):
         user_id = request.POST['user_id']
         type = request.POST['type']
 
+        if Post.objects.filter(stuff_id=stuff).exists():
+            messages.error(request,'That stuff is taken')
+            return render(request,'posts/create_post.html',context)
+
         post_data = Post(stuff_id=stuff ,title = title ,issue_date = issue_date , due_date=due_date, status=status,content=content,type=type ,user_id=user_id)
     
         post_data.save()
         messages.success(request,'Your request have been submitted')
 
-    context = {
-            'post_stuffs': post_stuffs
-    }
     
     return render(request,'posts/create_post.html',context)
 
@@ -151,7 +154,17 @@ def search(request):
     if 'stuff_name' in request.GET:                           
             stuff_name = request.GET['stuff_name']
             if stuff_name:
-                queryset_list = queryset_list.filter(stuff__stuff_name=stuff_name)
+                queryset_list = queryset_list.filter(stuff__name=stuff_name)
+
+    if 'district' in request.GET:                           
+        district = request.GET['district']
+        if district:
+            queryset_list = queryset_list.filter(stuff__district=district)
+
+    if 'location' in request.GET:                           
+        location = request.GET['location']
+        if location:
+            queryset_list = queryset_list.filter(stuff__location=location)
 
     if 'status' in request.GET:                           
             status = request.GET['status']

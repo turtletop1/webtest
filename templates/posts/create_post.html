@@ -14,7 +14,7 @@
                 <div class="col-sm-8">
                     <select name="stuff" class="form-control" >
                         {% for post_stuff in post_stuffs %}
-                        <option value="{{post_stuffid}}">{{post_stuff}}</option>
+                        <option value="{{post_stuff.id}}">{{post_stuff}}</option>
                         {% endfor %}
                     </select>
                     </div>
@@ -48,6 +48,7 @@
                 <select name="status" class="form-control">
                     <option value="posting">posting</option>
                     <option value="waiting">waiting</option>
+                    <option value="finished">finished</option>
                 </select>
             </div>  
         </div>

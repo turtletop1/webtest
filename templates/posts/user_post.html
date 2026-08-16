@@ -21,60 +21,74 @@
     <hr>
     <div class="row">
         {% if postss %}
-        {% for post in postss %}
+            {% for post in postss %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+                <div class="card w-100 shadow-sm">
+                    <div class="position-relative" style="height: 200px; overflow: hidden; background-color: #f8f9fa;">
+            
+                        
+            <div class="position-absolute top-0 end-0 m-1 d-flex gap-1 align-items-center">
+                <span class="badge badge-primary {% if post.type == 'missing' %}bg-danger{% else %}bg-primary{% endif %} m-2 px-2 py-2 shadow-sm">
+                    {% if post.type == 'missing' %}
+                        <span class="material-symbols-outlined align-middle fs-6">search</span> missing
+                    {% else %}
+                        <span class="material-symbols-outlined align-middle fs-6">front_hand</span> discover
+                    {% endif %}
+                </span>
 
-        <div class="col-sm-4">
-            <div class="card" style="width:20rem;">
+                <span class="badge badge-primary {% if post.stuff.type == 'pet' %}bg-warning{% elif post.stuff.type == 'object' %}bg-info{% else %}bg-success{% endif %} m-1 px-2 py-2 shadow-sm">
+                    {% if post.stuff.type == 'pet' %}
+                        <span class="material-symbols-outlined align-middle fs-6">pets</span> pet
+                    {% elif post.stuff.type == 'object' %}
+                        <span class="material-symbols-outlined align-middle fs-6">box</span> object
+                    {% else  %}
+                        <span class="material-symbols-outlined align-middle fs-6">people</span> people
+                    {% endif %}
+                </span>
+            </div>
 
-                <h4 class="card-header">{{post.title}}</h4>
-                <img {% if post.stuff.photo_main %} src="{{ post.stuff.photo_main.url }}" {% else %} src='{% static "img/img.jpg" %}' {% endif %} alt="pic" class="card-img-top">
+            <img {% if post.stuff.photo_main %} src="{{ post.stuff.photo_main.url }}" {% else %} src="{% static "img/img.jpg" %}" {% endif %} 
+                alt="pic" class="card-img-top w-100 h-100" style="object-fit: cover;">
+        </div>
 
-                <div class="card-body">
-                    
-                    <h6 class="card-subtitle text-primary "><span class="material-symbols-outlined align-middle fs-6">account_circle</span> User name</h6>
-                    {{post.user.username}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">date_range</span> Issue date</h6>
-                    {{post.issue_date}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">date_range</span> Due date</h6>
-                    {{post.due_date}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">date_range</span> Missing date</h6>
-                    {{post.stuff.missing_date}} 
-                    <hr>
+            <h4 class="card-header">{{post.title}}</h4>    
+                    <div class="card-body">
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">account_circle</span> User Name</h6>
+                        {{post.user.username}} 
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">box</span> Stuff Name</h6>
+                        {{post.stuff.name}} 
+                        <hr>
+                        
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">date_range</span> Missing Date</h6>
+                        {{post.stuff.missing_date}} 
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">clock_loader_20</span> Status</h6>
+                        {{post.status}} 
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">home</span> Location</h6>
+                        {{post.stuff.location}} | {{post.stuff.district}}
+                        <hr>
+                        <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">payments</span> Reward</h6>
+                        {% if post.reward %} ✅ {% else %} ❌ {% endif %}
+                        <hr>
 
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">box</span> Stuff Name</h6>
-                    {{post.stuff.name}} 
-                    <hr>
-
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">article</span> Post type</h6>
-                    {{post.type}} 
-                    <hr>
-                    <h6 class="{{post.user.username}} card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">box</span> Stuff type</h6>
-                    {{post.stuff.type}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">clock_loader_20</span> Status</h6>
-                    {{post.status}} 
-                    <hr>
-                    <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined ">payments</span> Reward</h6>
-                    {% if post.reward %} ✅  {% else %}  ❌  {% endif %}
-                    <hr>
-
-                    <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
+                        <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
                             View Detail
-                    </a>
-
+                        </a>
                     <hr>
                     <a href="{% url 'posts:edit_post' post.id%}" class="btn btn-success font-weight-bold" role="button">
                         <span class="material-symbols-outlined align-middle fs-6">edit</span> Edit
                     </a>
                     <button class="btn btn-danger font-weight-bold" data-url="{%url 'posts:delete_post' post.id %}" data-toggle="modal" data-target="#deleteConfirmModal" data-id="{{post.id}}" ><span class="material-symbols-outlined align-middle fs-6">delete</span> Delete</button>
-
                 </div>
             </div>       
         </div>
         {% endfor %}
+        {% else %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted fs-5">No posts available right now.</p>
+            </div>
     {% endif %}
     </div>
 

@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3"><span class="material-symbols-outlined" style="font-size: 55px;">comment</span> Feedback</h1>
+        <p>This is a Feedback page. you can select and manage your feedback</p>
+    </div>
+</div>
+
+<div class="container">
+
+    <a href="{% url "feedbacks:create_feedback"%}" class="btn btn-primary" role="button">
+        <span class="material-symbols-outlined align-middle fs-6">box_add</span> <b> Feedback</b>
+    </a>
+    <hr>
+
+        <table class="table table-hover">
+        <thead>
+            <tr>
+            <th scope="col">Title</th>
+            <th scope="col">User</th>
+            <th scope="col">Date</th>
+            <th scope="col">Content</th>
+            <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if feedbacks %}
+        {% for feedback in feedbacks %}
+            <tr>
+                <td class="d-inline-block text-truncate">{{feedback.title}}</td>
+                <td>
+                    {{feedback.user}}
+                </td>
+                <td>
+                    {{feedback.date}}
+                </td>
+
+                <td>
+                    <button type="button" class="btn btn-outline-info font-weight-bold" data-toggle="modal" data-target="#fb_detail{{ feedback.id }}">
+                        View Detail
+                    </button>
+
+                    <div class="modal fade" id="fb_detail{{ feedback.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle{{ feedback.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle{{ stuff.id }}">Content</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-break" style="white-space: pre-wrap;">{{ feedback.content }}</div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <button class="btn btn-danger font-weight-bold" data-url="{%url 'feedbacks:delete_feedback' feedback.id %}" data-toggle="modal" data-target="#deleteConfirmModal" data-id="{{feedback.id}}" ><span class="material-symbols-outlined align-middle fs-6">delete</span> Delete
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        {% endif %}
+        </table>
+
+        <div class="modal fade" id="deleteConfirmModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete </h5>
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <!--modal body-->
+                <div class="modal-body">
+                    <p>Are you sure youm want to delete this ?</p>
+                    <a href="" class="btn btn-danger" id="confirmDeleteBtn">Yes</a>
+                    <button class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+{% if feedbacks %}
+        <div class="col-md-12">
+            <ul class="pagination">
+                {% if feedbacks.has_previous %}
+                <li class="page-item">
+                    <a  class="page-link" href="?page={{feedbacks.previous_page_number}}">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for i in feedbacks.paginator.page_range %}
+                {% if i == feedbacks.number %}
+                <li class="page-item">
+                    <a class="page-link">{{i}}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{i}}">{{i}}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if feedbacks.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{feedbacks.next_page_number}}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+    {% endif %}
+        </div>
+
+</div>
+
+{% endblock %}

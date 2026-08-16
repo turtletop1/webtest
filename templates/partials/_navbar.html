@@ -25,7 +25,7 @@
                 </li>
 
                 {% if user.is_authenticated %}
-                    <li class="nav-item {% if '/stuffs/' in request.path %}active{% endif %}">
+                    <li class="nav-item {% if '/stuffs/' in request.path %}active {% endif %} ">
                         <a href="{% url 'stuffs:stuff' %}" class="nav-link d-flex align-items-center">
                             <span class="material-symbols-outlined mr-1 fs-6">inventory_2</span> Stuff
                         </a>
@@ -37,7 +37,15 @@
                         </a>
                     </li>
 
-                    <li class="nav-item {% if '/accounts/dashboard' in request.path %}active{% endif %}">
+                    
+                    <li class="nav-item {% if '/feedbacks/feedback' in request.path %}active{% endif %}">
+                        <a href="{% url 'feedbacks:feedback' %}" class="nav-link d-flex align-items-center">
+                            <span class="material-symbols-outlined mr-1 fs-6">feedback</span> Feedback
+                        </a>
+                    </li>
+                  
+
+                    <li class="nav-item {% if '/accounts/dashboard' in request.path %}active {% endif %}">
                         <a href="{% url 'accounts:dashboard' %}" class="nav-link d-flex align-items-center">
                             <span class="material-symbols-outlined mr-1 fs-6">account_circle</span> {{ user.username }}
                         </a>

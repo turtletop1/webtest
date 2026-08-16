@@ -15,6 +15,7 @@
         <span class="material-symbols-outlined align-middle fs-6">box_add</span> <b> create</b>
     </a>
     <hr>
+    
     <div class="row g-4">
     {% if stuffs %}
         {% for stuff in stuffs %}
@@ -22,19 +23,18 @@
             <div class="card w-100 shadow-sm">
                 <div class="position-relative" style="height: 200px; overflow: hidden; background-color: #f8f9fa;">
 
-                    <span class="badge position-absolute top-0 end-0 m-2 px-3 py-2 shadow-sm bg-primary text-white">
-                        <span class="material-symbols-outlined align-middle fs-6">box</span> {{ stuff.type }}
-                    </span>
-
-                    <span class="badge position-absolute top-0 end-0 m-2 px-3 py-2 shadow-sm {% if stuff.type == 'pet' %}bg-warning{% elif stuff.type == 'object' %}bg-info{% else %}bg-success{% endif %}">
-                    {% if stuff.type == 'pet' %}
-                        <span class="material-symbols-outlined align-middle fs-6">pets</span> pet
-                    {% elif stuff.type == 'electronics' %}
-                        <span class="material-symbols-outlined align-middle fs-6">box</span> object
-                    {% else  %}
-                        <span class="material-symbols-outlined align-middle fs-6">people</span> people
-                    {% endif %}
-                    </span>
+                    <div class="position-absolute top-0 end-0 m-2 d-flex gap-1 align-items-center">
+                
+                        <span class="badge badge-primary {% if stuff.type == 'pet' %}bg-warning{% elif stuff.type == 'object' %}bg-info{% else %}bg-success{% endif %} m-2 px-2 py-2 shadow-sm">
+                            {% if stuff.type == 'pet' %}
+                                <span class="material-symbols-outlined align-middle fs-6">pets</span> pet
+                            {% elif stuff.type == 'object' %}
+                                <span class="material-symbols-outlined align-middle fs-6">box</span> object
+                            {% else  %}
+                                <span class="material-symbols-outlined align-middle fs-6">people</span> people
+                            {% endif %}
+                        </span>
+                    </div>
 
 
                     <img {% if stuff.photo_main %} src="{{ stuff.photo_main.url }}" {% else %} src="{% static 'img/img.jpg' %}" {% endif %} alt="pic" class="card-img-top w-100 h-100" style="object-fit: cover;">
