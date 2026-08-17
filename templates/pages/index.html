@@ -29,7 +29,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title fw-bold" id="searchModalTitle">
-                    <span class="material-symbols-outlined align-middle">tune</span> Filter & Search
+                    <span class="material-symbols-outlined align-middle">tune</span> Filter & Search Post
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -38,7 +38,7 @@
             <form action="{% url 'posts:search' %}">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label text-muted">Keyword</label>
+                        <label class="form-label text-muted">Keyword(title/description)</label>
                         <input type="text" name="keywords" class="form-control" placeholder="Search title or item..." value="{{values.keywords}}">
                     </div>
                     <div class="mb-3">
@@ -72,7 +72,11 @@
 
                     <div class="mb-3">
                         <label class="form-label text-muted">Status</label>
-                        <input type="text" name="status" class="form-control" placeholder="e.g. Active, Solved" value="{{values.status}}">
+                        <select name="status" class="form-select form-control">
+                            <option value="">-- All status --</option>
+                            <option value="posting" {% if values.status == 'posting' %}selected{% endif %}>posting</option>
+                            <option value="finished" {% if values.status == 'finished' %}selected{% endif %}>finished</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -204,7 +208,7 @@
                         <hr>
                         
                         <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">home</span> Location</h6>
-                        {{post.stuff.location}} | {{post.stuff.district}}
+                        <div class="text-truncate">{{post.stuff.location}}</div> {{post.stuff.district}}
                         <hr>
                         <h6 class="card-subtitle text-primary"><span class="material-symbols-outlined align-middle fs-6">payments</span> Reward</h6>
                         {% if post.reward %} ✅ {% else %} ❌ {% endif %}

@@ -13,7 +13,7 @@ from .choices_post import type
 
 def post(request):
 
-    postsss = Post.objects.order_by('-issue_date').filter(status='posting')
+    postsss = Post.objects.order_by('-issue_date').filter(Q(status="posting") | Q(status="finished"))
 
     paginator = Paginator(postsss, 6)            
     page_number = request.GET.get('page')              
@@ -24,7 +24,7 @@ def post(request):
 
 
 def missing(request):
-    postsss = Post.objects.order_by('-issue_date').filter(type='missing',status='posting')
+    postsss = Post.objects.order_by('-issue_date').filter(type='missing').filter(Q(status="posting") | Q(status="finished"))
 
     paginator = Paginator(postsss, 6)            
     page_number = request.GET.get('page')              
@@ -36,7 +36,7 @@ def missing(request):
 
 
 def discover(request):
-    postsss = Post.objects.order_by('-issue_date').filter(type='discover',status='posting')
+    postsss = Post.objects.order_by('-issue_date').filter(type='discover').filter(Q(status="posting") | Q(status="finished"))
 
     paginator = Paginator(postsss, 6)            
     page_number = request.GET.get('page')              
@@ -80,7 +80,6 @@ def create_post(request):
     if request.method == "POST":
         stuff = request.POST['stuff']
         title = request.POST['title']
-        issue_date = request.POST['issue_date']
         due_date = request.POST['due_date']
         status = request.POST['status']
         content = request.POST['content']
@@ -91,7 +90,7 @@ def create_post(request):
             messages.error(request,'That stuff is taken')
             return render(request,'posts/create_post.html',context)
 
-        post_data = Post(stuff_id=stuff ,title = title ,issue_date = issue_date , due_date=due_date, status=status,content=content,type=type ,user_id=user_id)
+        post_data = Post(stuff_id=stuff ,title = title , due_date=due_date, status=status,content=content,type=type ,user_id=user_id)
     
         post_data.save()
         messages.success(request,'Your request have been submitted')

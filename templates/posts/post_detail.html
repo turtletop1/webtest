@@ -6,7 +6,7 @@
 
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">{{ post.title|title }}</h1>
+        <h1 class="display-3 text-truncate">{{ post.title|title }}</h1>
         <h3>{{ post.type }} | {{ post.stuff.type }} </h3>
     </div>
 </div>
@@ -106,14 +106,14 @@
         <div class="row mb-5">
             <div class="col-md-12">
                 <h3 class="mb-3">Post Description</h3>
-                <div class="container" style="white-space:pre;">{{ post.stuff.description|default:"No description provided for this item." }}</div>
+                <div class="container" style="white-space: pre-wrap;">{{ post.stuff.description|default:"No description provided for this item." }}</div>
             </div>
         </div>
         <hr>
         <div class="row mb-5">
             <div class="col-md-12">
                 <h3 class="mb-3">Content</h3>
-                <div class="container" style="white-space:pre;">{{ post.content|default:"No content provided for this item." }}</div>
+                    <div class="container" style="white-space: pre-wrap;">{{ post.content|default:"No content provided for this item." }}</div>
             </div>
         </div>
         <hr><br>

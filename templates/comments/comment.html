@@ -11,12 +11,12 @@
 
 <div class="container">
 
-        <table class="table table-hover">
+        <table class="table table-hover" >
         <thead>
             <tr>
             <th scope="col">Post</th>
             <th scope="col">Content</th>
-            <th scope="col">Post</th>
+            <th scope="col">View</th>
             <th scope="col">Action</th>
             </tr>
         </thead>
@@ -24,8 +24,8 @@
         {% if comments %}
         {% for comment in comments %}
             <tr>
-                <td>{{comment.post}}</td>
-                <td><div class="d-inline-block text-truncate">{{comment.content}}</div></td>
+                <td ><div class=" d-inline-block text-truncate" style="max-width: 200px;">{{comment.post}}</div></td>
+                <td><div class=" d-inline-block text-truncate" style="max-width: 650px;">{{comment.content}}</div></td>
                 <td>
                     <a href="{% url 'posts:post_detail' comment.post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
                     View Detail

@@ -26,7 +26,6 @@ class PostForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'name':'title' ,'class': 'form-control'}),
             'status': forms.Select(attrs={'name':'status' ,'class': 'form-control'}),
             'type': forms.Select(attrs={'name':'type' ,'class': 'form-control'}),
-            'issue_date': forms.DateTimeInput(attrs={'name':'issue_date' ,'class': 'form-control' , 'type':"datetime-local"}),
             'due_date': forms.DateTimeInput(attrs={'name':'due_date' ,'class': 'form-control' , 'type':"datetime-local"}),
             'content': forms.Textarea(attrs={'name':'content' ,'class': 'form-control'}),
             'reward': forms.CheckboxInput(attrs={'name':'reward' ,'class': 'form-control'}),
