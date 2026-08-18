@@ -21,6 +21,10 @@
                         <div class="dropdown-divider"></div>
                         <a href="{% url 'posts:missing' %}" class="dropdown-item">Missing</a>
                         <a href="{% url 'posts:discover' %}" class="dropdown-item">Discover</a>
+                        <div class="dropdown-divider"></div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'posts:user_post' %}" class="dropdown-item">Your Posts</a>
+                {% endif %}
                     </div>
                 </li>
 
@@ -39,9 +43,15 @@
 
                     
                     <li class="nav-item {% if '/feedbacks/feedback' in request.path %}active{% endif %}">
+                        {% if user.is_staff%}
                         <a href="{% url 'feedbacks:feedback' %}" class="nav-link d-flex align-items-center">
                             <span class="material-symbols-outlined mr-1 fs-6">feedback</span> Feedback
                         </a>
+                        {% else %}
+                        <a href="{% url 'feedbacks:create_feedback' %}" class="nav-link d-flex align-items-center">
+                            <span class="material-symbols-outlined mr-1 fs-6">feedback</span> Feedback
+                        </a>
+                        {% endif %}
                     </li>
                   
 
