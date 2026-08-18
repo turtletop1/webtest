@@ -53,8 +53,13 @@
                         </a>
                         {% endif %}
                     </li>
-                  
-
+                  {% if user.is_staff%}
+                    <li class="nav-item {% if '/generations/generation' in request.path %}active {% endif %}">
+                        <a href="{% url 'generations:generation' %}" class="nav-link d-flex align-items-center">
+                            <span class="material-symbols-outlined mr-1 fs-6">pages</span> generations
+                        </a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item {% if '/accounts/dashboard' in request.path %}active {% endif %}">
                         <a href="{% url 'accounts:dashboard' %}" class="nav-link d-flex align-items-center">
                             <span class="material-symbols-outlined mr-1 fs-6">account_circle</span> {{ user.username }}

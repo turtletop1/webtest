@@ -139,10 +139,12 @@
 
                                     <div class="text-right">
                                         <button type="button" class="btn btn-outline-info font-weight-bold " data-toggle="modal" data-target="#comment_detail{{ comment.id }}">
-                                            Edit
+                                            <span class="material-symbols-outlined align-middle fs-6">edit</span> Edit
                                         </button>
-                                    </div>
 
+                                    <button class="btn btn-outline-danger font-weight-bold" data-url="{%url 'posts:delete_comment' comment.id %}" data-toggle="modal" data-target="#deleteConfirmModal" data-id="{{comment.id}}" ><span class="material-symbols-outlined align-middle fs-6">delete</span> Delete</button>
+                                    </div>
+                                    
                                     <div class="modal fade" id="comment_detail{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle{{ comment.id }}" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
@@ -177,6 +179,23 @@
                 </div>
                 
 
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteConfirmModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete </h5>
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <!--modal body-->
+                <div class="modal-body">
+                    <p>Are you sure youm want to delete this ?</p>
+                    <a href="" class="btn btn-danger" id="confirmDeleteBtn">Yes</a>
+                    <button class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+                </div>
             </div>
         </div>
 

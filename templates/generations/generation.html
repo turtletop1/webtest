@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3"><span class="material-symbols-outlined" style="font-size: 55px;">comment</span> generations</h1>
+        <p>This is a generations page. you can view and manage your generations</p>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="mb-3">
+        <label class="form-label text-muted">tables</label>
+        <form action="{% url 'generations:generation' %}">
+            <select name="tables" class="form-select form-control">
+                <option value="">-- All Types --</option>
+                <option value="Stuff" {% if values.tables == 'Stuff' %}selected{% endif %}>Stuff</option>
+                <option value="User" {% if values.tables == 'User' %}selected{% endif %}>User</option>
+                <option value="Post" {% if values.tables == 'Post' %}selected{% endif %}>Post</option>
+            </select>
+            <button class="btn btn-primary mt-4" type="submit">Show data</button>
+        </form>
+    </div>
+        <a href="{% url 'generations:export_large_csv' %}?tables={{ table_type }}" class="btn btn-success mb-3">
+            <span class="material-symbols-outlined">download</span> Export CSV
+        </a>
+
+        <table class="table table-hover">   
+            <thead>
+                {% if table_type == 'Stuff' %}
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Missing Date</th>
+                        <th>User</th>
+                        <th>Type</th>
+                    </tr>
+                {% elif table_type == 'User' %}
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Title</th>
+                        <th>Issue Date</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        <th>Due Date</th>
+                        <th>Reward</th>
+                        <th>Content</th>
+                    </tr> 
+                {% endif %}
+            </thead>
+            <tbody>
+                {% if gens %}
+                    {% for gen in gens %}
+                        {% if table_type == 'Stuff' %}
+                            <tr>
+                                <td>{{ gen.id }}</td>
+                                <td>{{ gen.name }}</td>
+                                <td>{{ gen.missing_date|date:"Y-m-d H:i" }}</td>
+                                <td>{{ gen.user.username }}</td>
+                                <td>{{ gen.type }}</td>
+                            </tr>
+                        {% elif table_type == 'User' %}
+                            <tr>
+                                <td>{{ gen.id }}</td>
+                                <td>{{ gen.username }}</td>
+                                <td>{{ gen.first_name }}</td>
+                                <td>{{ gen.last_name }}</td>
+                                <td>{{ gen.email }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>{{ gen.id }}</td>
+                                <td>{{ gen.user.username }}</td>
+                                <td>{{ gen.title }}</td>
+                                <td>{{ gen.issue_date|date:"Y-m-d H:i" }}</td>
+                                <td>{{ gen.status }}</td>
+                                <td>{{ gen.type }}</td>
+                                <td>{{ gen.due_date|date:"Y-m-d" }}</td>
+                                <td>{{ gen.reward }}</td>
+                                <td class="text-truncate" style="max-width: 200px;">{{ gen.content }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="10" class="text-center text-muted py-4">No records found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+
+    {% if gens %}
+        <div class="col-md-12">
+            <ul class="pagination">
+                {% if gens.has_previous %}
+                <li class="page-item">
+                    <a  class="page-link" href="?page={{gens.previous_page_number}}">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for i in gens.paginator.page_range %}
+                {% if i == gens.number %}
+                <li class="page-item">
+                    <a class="page-link">{{i}}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{i}}">{{i}}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if gens.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{gens.next_page_number}}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+    {% endif %}
+        </div>
+
+</div>
+
+{% endblock %}

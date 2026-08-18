@@ -32,9 +32,10 @@ LOCAL_APPS = [                      #add new page
     "stuffs.apps.StuffsConfig",
     "comments.apps.CommentsConfig",
     "feedbacks.apps.FeedbacksConfig",
+    "generations.apps.GenerationsConfig",
 ]
 
-THIRD_PARTY_APPS = ["debug_toolbar", "widget_tweaks","taggit"]
+THIRD_PARTY_APPS = ["debug_toolbar", "widget_tweaks","taggit","import_export"]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 

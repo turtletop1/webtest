@@ -135,6 +135,15 @@ def delete_post(request,post_id):
     return redirect('posts:post')
 
 
+
+def delete_comment(request,comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    post_id = comment.post.id  
+    comment.delete()
+
+    return redirect('posts:post_detail', post_id=post_id)
+
+
 def search(request):
     queryset_list = Post.objects.order_by('-issue_date') 
 
