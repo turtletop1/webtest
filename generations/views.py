@@ -69,16 +69,13 @@ def generation(request):
     paginator = Paginator(queryset, 10)
     page_obj = paginator.get_page(request.GET.get('page'))
     
-    return render(request, 'generations/generation.html', {
-        "gens": page_obj,
-        "table_type": table_type,
-        "values": request.GET
-    })
+    return render(request, 'generations/generation.html', {"gens": page_obj,"table_type": table_type,"values": request.GET})
 
 
 def poster(request, post_id=None):
     post = get_object_or_404(Post, pk=post_id) if post_id else None
     return render(request, "generations/poster.html", {"post": post})
+
 
 class Echo:
     def write(self, value):

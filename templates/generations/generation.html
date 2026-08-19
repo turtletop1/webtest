@@ -4,7 +4,7 @@
 
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3"><span class="material-symbols-outlined" style="font-size: 55px;">comment</span> generations</h1>
+        <h1 class="display-3 text-secondary mb-4" ><span class="material-symbols-outlined" style="font-size: 55px;">comment</span> generations</h1>
         <p>This is a generations page. you can view and manage your generations</p>
     </div>
 </div>
@@ -106,7 +106,7 @@
             <ul class="pagination">
                 {% if gens.has_previous %}
                 <li class="page-item">
-                    <a  class="page-link" href="?page={{gens.previous_page_number}}">&laquo;</a>
+                    <a  class="page-link" href="?tables={{table_type}}&page={{gens.previous_page_number}}">&laquo;</a>
                 </li>
                 {% else %}
                 <li class="page-item">
@@ -120,13 +120,13 @@
                 </li>
                 {% else %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{i}}">{{i}}</a>
+                    <a class="page-link" href="?tables={{table_type}}&page={{i}}">{{i}}</a>
                 </li>
                 {% endif %}
                 {% endfor %}
                 {% if gens.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{gens.next_page_number}}">&raquo;</a>
+                    <a class="page-link" href="?tables={{table_type}}&page={{gens.next_page_number}}">&raquo;</a>
                 </li>
                 {% else %}
                 <li class="page-item">

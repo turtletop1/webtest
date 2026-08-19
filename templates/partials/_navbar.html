@@ -60,10 +60,10 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="postDropdown">
                         {% if user.is_staff %}
-                        <a href="{% url 'generations:generation' %}" class="dropdown-item">import data</a>
+                        <a href="{% url 'generations:generation' %}" class="dropdown-item">Export data</a>
                         {% endif %}
                         <div class="dropdown-divider"></div>
-                            <a href="{% url 'generations:poster' %}" class="dropdown-item">poster</a>
+                            <a href="{% url 'generations:poster' %}" class="dropdown-item">Poster</a>
                     </div>
                 </li>
 
