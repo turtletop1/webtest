@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container-fluid align-middle">
+    <h2 class="display-5 mb-4 d-flex align-items-center gap-2">
+        <span class="material-symbols-outlined" style="font-size: 40px;">edit_document</span> 
+        Poster
+    </h2>
+    <div class="row g-4 align-items-stretch  position-relative p-2 ">
+        <div class="col-5">
+
+        <form action="{% if post %}{% url 'generations:some_view_post' post.id %}{% else %}{% url 'generations:some_view' %}{% endif %}"method="POST"enctype="multipart/form-data"target="iframe_name">
+            {% csrf_token %}
+
+            <div class="form-group row mb-3">
+                <label for="title" class="col-sm-2 col-form-label font-weight-bold">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" value="{{ post.title }}" name="title" id="title">
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label for="photo" class="col-sm-2 col-form-label font-weight-bold">Photo</label>
+                <div class="col-sm-10">
+                    {% if post.stuff.photo_main %}
+                        <div class="mb-2">
+                            <img src="{{ post.stuff.photo_main.url }}" alt="Current Photo" style="max-height: 80px;" class="rounded border">
+                        </div>
+                    {% endif %}
+                    <input type="file" class="form-control-file" name="photo" id="photo" accept="image/*">
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label for="name" class="col-sm-2 col-form-label font-weight-bold">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" value="{{ post.stuff.name }}" name="name" id="name">
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label for="missing_date" class="col-sm-2 col-form-label font-weight-bold">Missing Date</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" value="{{ post.stuff.missing_date|date:'Y-m-d' }}" name="missing_date" id="missing_date">
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label for="type" class="col-sm-2 col-form-label font-weight-bold">Type</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" value="{{ post.type }}" name="type" id="type">
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label for="email" class="col-sm-2 col-form-label font-weight-bold">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" value="{{ post.user.email }}" name="email" id="email">
+                </div>
+            </div>
+             <div class="form-group row mb-3">
+                <label for="location" class="col-sm-2 col-form-label font-weight-bold">Location</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" value="{{ post.stuff.location }}" name="location" id="location">
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label for="description" class="col-sm-2 col-form-label font-weight-bold">Description</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="description" id="description" rows="3">{{ post.stuff.description }}</textarea>
+                </div>
+            </div>
+
+            <button class="btn btn-primary w-100 my-3 d-flex align-items-center justify-content-center gap-2" type="submit">
+                <span class="material-symbols-outlined">picture_as_pdf</span>
+                <span>Generate & Preview PDF</span>
+            </button>
+        </form>
+   
+        </div>
+            <div class="col-7">
+                <div class="card-header bg-dark text-white d-flex align-items-center">
+                    <span class="material-symbols-outlined me-2">visibility</span> PDF 
+                </div>
+                <div class="card-body p-0">
+                    <iframe src="{% if post %}{% url 'generations:some_view_post' post.id %}
+                    {% else %}{% url 'generations:some_view' %}
+                    {% endif %}" 
+                    width="100%" height="600px" name="iframe_name" style="border:none;"> 
+                    </iframe>
+                </div>
+            </div>  
+    </div>
+</div>
+{% endblock %}
+

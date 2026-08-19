@@ -78,7 +78,10 @@
                         <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
                             View Detail
                         </a>
-
+                        
+                        <a href="{% url 'posts:generate_poster' post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
+                            poster
+                        </a>
                         {% if user.is_staff %}
                         <button class="btn btn-danger font-weight-bold" data-url="{%url 'posts:delete_post' post.id %}" data-toggle="modal" data-target="#deleteConfirmModal" data-id="{{post.id}}" ><span class="material-symbols-outlined align-middle fs-6">delete</span> Delete</button>
                         {% endif %}

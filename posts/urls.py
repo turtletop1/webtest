@@ -5,6 +5,9 @@ app_name = "posts"
 
 urlpatterns = [                                     
     path('post_detail/<int:post_id>', views.post_detail, name='post_detail'), 
+
+    path('generate_poster/<int:post_id>', views.generate_poster, name='generate_poster'), 
+    
     path('post_comment_create/', views.post_comment_create, name='post_comment_create'), 
     path('delete_comment/<int:comment_id>', views.delete_comment, name='delete_comment'), 
     path('post/', views.post , name='post'),
