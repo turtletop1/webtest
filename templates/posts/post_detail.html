@@ -15,7 +15,14 @@
 
 <section id="listing" class="py-4">
   <div class="container">
-    <a href="{% url 'posts:post' %}" class="btn btn-primary mb-4"><span class="material-symbols-outlined">arrow_back_2</span> Back To Posts</a>
+    <div class="row">
+        <div class="col">
+     <a href="{% url 'posts:post' %}" class="btn btn-primary mb-4"><span class="material-symbols-outlined">arrow_back_2</span> Back To Posts</a></div>
+    <div class="col"> <a href="{% url 'posts:generate_poster' post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
+             Print
+        </a></div>
+    </div>
+
 
     <div class="row ">
         <div class="col-md-9">
@@ -117,7 +124,6 @@
             </div>
         </div>
         <hr><br>
-
         <div class="row mb-4">
             <div class="col-md-12">
                 <h3 class="mb-3">Comments</h3>

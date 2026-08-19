@@ -76,6 +76,9 @@
                         <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
                             View Detail
                         </a>
+                        <a href="{% url 'posts:generate_poster' post.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
+                            Print
+                        </a>
                     <hr>
                     <a href="{% url 'posts:edit_post' post.id%}" class="btn btn-success font-weight-bold" role="button">
                         <span class="material-symbols-outlined align-middle fs-6">edit</span> Edit

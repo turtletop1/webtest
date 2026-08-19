@@ -28,6 +28,20 @@
                     </div>
                 </li>
 
+                <li class="nav-item dropdown {% if '/generations/' in request.path %}active{% endif %}">
+                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="material-symbols-outlined mr-1 fs-6">pages</span> generations
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="postDropdown">
+                        {% if user.is_staff %}
+                        <a href="{% url 'generations:generation' %}" class="dropdown-item">Export data</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                            <a href="{% url 'generations:poster' %}" class="dropdown-item">Poster</a>
+                    </div>
+                </li>
+                
+
                 {% if user.is_authenticated %}
                     <li class="nav-item {% if '/stuffs/' in request.path %}active {% endif %} ">
                         <a href="{% url 'stuffs:stuff' %}" class="nav-link d-flex align-items-center">
@@ -54,18 +68,7 @@
                         {% endif %}
                     </li>
 
-                <li class="nav-item dropdown {% if '/generations/' in request.path %}active{% endif %}">
-                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="material-symbols-outlined mr-1 fs-6">pages</span> generations
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="postDropdown">
-                        {% if user.is_staff %}
-                        <a href="{% url 'generations:generation' %}" class="dropdown-item">Export data</a>
-                        {% endif %}
-                        <div class="dropdown-divider"></div>
-                            <a href="{% url 'generations:poster' %}" class="dropdown-item">Poster</a>
-                    </div>
-                </li>
+            
 
 
 

@@ -132,8 +132,8 @@
             {{ title|default:"Missing / NOTICE" }}
         </div>
 
-    <!-- 圖片展示區塊 -->
-    <div class="photo-container">
+
+        <div class="photo-container">
         {% if photo %}
             <img src="{{ photo }}" alt="Target Photo">
         {% else %}
@@ -175,7 +175,7 @@
 </div>
 
 <div class="print-btn-container no-print">
-    <input type="button" class="btn-print" value="🖨️  Print" onclick="window.print()" />
+    <input type="button" class="btn-print" value="Print" onclick="window.print()" />
 </div>
 
 </body>
