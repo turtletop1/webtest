@@ -22,5 +22,6 @@ district_choices = {
     "Central & Western": "Central & Western",
     "Eastern": "Eastern",
     "Southern": "Southern",
-    "Wan Chai": "Wan Chais"
+    "Wan Chai": "Wan Chais",
+    "Tseung Kwan O":"Tseung Kwan O"
 }
