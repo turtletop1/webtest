@@ -29,7 +29,7 @@
                 </li>
 
                 <li class="nav-item dropdown {% if '/generations/' in request.path %}active{% endif %}">
-                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" data-placement="top" title="generations~">
                         <span class="material-symbols-outlined mr-1 fs-6">pages</span> generations
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="postDropdown">
@@ -44,13 +44,13 @@
 
                 {% if user.is_authenticated %}
                     <li class="nav-item {% if '/stuffs/' in request.path %}active {% endif %} ">
-                        <a href="{% url 'stuffs:stuff' %}" class="nav-link d-flex align-items-center">
+                        <a href="{% url 'stuffs:stuff' %}" class="nav-link d-flex align-items-center" data-toggle="tooltip" data-placement="top" title="stuff">
                             <span class="material-symbols-outlined mr-1 fs-6">inventory_2</span> Stuff
                         </a>
                     </li>
 
                     <li class="nav-item {% if '/comments/comment' in request.path %}active{% endif %}">
-                        <a href="{% url 'comments:comment' %}" class="nav-link d-flex align-items-center">
+                        <a href="{% url 'comments:comment' %}" class="nav-link d-flex align-items-center" data-toggle="tooltip" data-placement="top" title="comment">
                             <span class="material-symbols-outlined mr-1 fs-6">comment</span> Comment
                         </a>
                     </li>
@@ -58,7 +58,7 @@
                     
                     <li class="nav-item {% if '/feedbacks/feedback' in request.path %}active{% endif %}">
                         {% if user.is_staff%}
-                        <a href="{% url 'feedbacks:feedback' %}" class="nav-link d-flex align-items-center">
+                        <a href="{% url 'feedbacks:feedback' %}" class="nav-link d-flex align-items-center" data-toggle="tooltip" data-placement="top" title="feedback">
                             <span class="material-symbols-outlined mr-1 fs-6">feedback</span> Feedback
                         </a>
                         {% else %}
@@ -80,7 +80,7 @@
 
 
                     <li class="nav-item ml-md-2">
-                        <a class="nav-link text-danger d-flex align-items-center" href="javascript:{document.getElementById('logout').submit()}">
+                        <a class="nav-link text-danger d-flex align-items-center" href="javascript:{document.getElementById('logout').submit()}" data-toggle="tooltip" data-placement="top" title="Logout~">
                             <span class="material-symbols-outlined mr-1 fs-6">logout</span> Logout
                         </a>
                         <form action="{% url 'accounts:logout' %}" method="POST" id="logout" style="display:none;">
@@ -90,7 +90,7 @@
 
                 {% else %}
                     <li class="nav-item {% if '/accounts/register' in request.path %}active{% endif %}">
-                        <a href="{% url 'accounts:register' %}" class="nav-link d-flex align-items-center">
+                        <a href="{% url 'accounts:register' %}" class="nav-link d-flex align-items-center" data-toggle="tooltip" data-placement="top" title="Register~">
                             <span class="material-symbols-outlined mr-1 fs-6">person_add</span> Register
                         </a>
                     </li>
