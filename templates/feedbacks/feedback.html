@@ -13,20 +13,20 @@
 
         <table class="table table-hover">
         <thead>
-            <tr>
-            <th scope="col">Title</th>
-            <th scope="col">User</th>
-            <th scope="col">Date</th>
-            <th scope="col">Content</th>
-            <th scope="col">Action</th>
+            <tr class="row">
+                <th class="col-2">Title</th>
+                <th >User</th>
+                <th >Date</th>
+                <th >Content</th>
+                <th >Action</th>
             </tr>
         </thead>
         <tbody>
         {% if feedbacks %}
         {% for feedback in feedbacks %}
-            <tr>
-                <td class="d-inline-block text-truncate">{{feedback.title}}</td>
-                <td>
+            <tr class="row">
+                <td class="col-2 text-truncate">{{feedback.title}}</td>
+                <td >
                     {{feedback.user}}
                 </td>
                 <td>

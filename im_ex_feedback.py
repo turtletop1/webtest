@@ -1,101 +1,314 @@
+import psycopg2
+import csv
 import os
-import django
-import pandas as pd
+from datetime import datetime
+from dotenv import load_dotenv
 
-# -------------------------------------------------------------------
-# 步驟 0: 初始化 Django 環境
-# -------------------------------------------------------------------
+load_dotenv()
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings') 
-django.setup()
+DB_CONFIG = {
+    'database': os.getenv('DB_NAME', 'webstestdb'),
+    'user': os.getenv('DB_USER', 'postgres'),
+    'password': os.getenv('DB_PASSWORD', 'hkhkhk'),  # 如果 .env 冇設定就用預設值
+    'host': os.getenv('DB_HOST', 'localhost'),
+    'port': os.getenv('DB_PORT', '5432')
+}
 
-from django.contrib.auth.models import User
-from feedbacks.models import Feedback  # 請將 myapp 替換為您的 app 名稱
+TABLE_NAME =''
 
-# -------------------------------------------------------------------
-# 步驟 a & b: 資料清理與格式化 (Data Cleaning & Formatting)
-# -------------------------------------------------------------------
-def process_data(raw_data_list):
+def table_select(num):
+    global TABLE_NAME           # global
 
-    cleaned_records = []
-    
-    default_user = User.objects.first()
-    if not default_user:
-        raise ValueError("Please create User ")
+    if num == '1':
+        TABLE_NAME = 'feedbacks_feedback'
+    elif num == '2':
+        TABLE_NAME = 'posts_post'
+    else:
+        return
 
-    for row in raw_data_list:
+    print(f"\n select: {TABLE_NAME}")
+
+
+def import_feedback(csv_path='feedback.csv'):    
+    try:
+        print("checking CSV...")
+        if not os.path.exists(csv_path):
+            print(f"❌ error file is not exist '{csv_path}'")
+            return
         
-        title = str(row.get('title', '')).strip()                        # 1. 處理 Title：去除前後空白、限制最大字數 200 字
-        if not title:
-            title = "no title"                                          # 預設值
-        title = title[:200]
-
-
-        content = str(row.get('content', '')).strip()                        # 2. 處理 Content：去除首尾空白
-
-        username = row.get('username', '').strip()                          # 3. 處理 User 關聯：尋找指定 username，若不存在則使用預設 User
-        user_obj = User.objects.filter(username=username).first() if username else None
-        if not user_obj:
-            user_obj = default_user
-
-        cleaned_records.append({
-            'user': user_obj,
-            'title': title,
-            'content': content
-        })
+        file_size = os.path.getsize(csv_path)
+        print(f"find file: {csv_path} ({file_size} bytes)")
         
-    return cleaned_records
+        print("\n CSV check:")
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            for i, row in enumerate(reader):
+                if i < 5:
+                    print(f"   行 {i}: {row}")
+                else:
+                    break
+        
+        print("\n check csv title...")
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            headers = reader.fieldnames
+            print(f"   title: {headers}")
+            required_fields = ['user_id', 'content', 'title']
+            missing_fields = [f for f in required_fields if f not in headers]
+            if missing_fields:
+                print(f"  lack of fields: {missing_fields}")
+                return
+        
 
-
-
-def import_to_django(cleaned_data):
+        print("\n connect database...")
+        conn = psycopg2.connect(**DB_CONFIG)
+        conn.autocommit = True
+        cursor = conn.cursor()
+        print("connect success")
+        
     
-    feedbacks_to_create = [
-        Feedback(
-            user=item['user'],
-            title=item['title'],
-            content=item['content']
-        )
-        for item in cleaned_data
-    ]
+        print(f"\n confirm form '{TABLE_NAME}' exist...")
+        sql_create = f'''
+        CREATE TABLE IF NOT EXISTS {TABLE_NAME} (              
+            id SERIAL PRIMARY KEY,
+            user_id INT NOT NULL REFERENCES auth_user(id) ON DELETE CASCADE,
+            content TEXT,
+            date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            title VARCHAR(200) NOT NULL
+        );
+        '''
+        cursor.execute(sql_create)
+        print("finish \'w\'")
+        
+        print("\n import data...")
+        success_count = 0
+        error_count = 0
+        error_rows = []
+        
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row_num, row in enumerate(reader, start=2):
+                try:
+
+                    user_id = str(row['user_id']).strip()
+                    title = str(row['title']).strip()
+                    content = str(row.get('content', '')).strip() if row.get('content') else None
+                    date_str = str(row.get('date', '')).strip() if row.get('date') else None
+                    
+
+                    if not user_id:
+                        raise ValueError("user_id must not empty")
+                    if not title:
+                        raise ValueError("title no empty")
+                    
+                    try:
+                        user_id = int(user_id)
+                    except ValueError:
+                        raise ValueError(f"user_id must be number, but '{user_id}'")
+                    
+                    if date_str:
+                        try:
+                            for fmt in ['%Y-%m-%d %H:%M:%S', '%Y-%m-%d', '%d/%m/%Y']:
+                                try:
+                                    date_obj = datetime.strptime(date_str, fmt)
+                                    date_str = date_obj.isoformat()
+                                    break
+                                except ValueError:
+                                    continue
+                        except Exception as e:
+                            print(f"  {row_num}: date forrmat '{date_str}'，using default time")
+                            date_str = None
+                    
+                    sql_insert = f'''
+                    INSERT INTO {TABLE_NAME} (user_id, content, date, title)
+                    VALUES (%s, %s, %s, %s)
+                    '''
+                    cursor.execute(sql_insert, (user_id, content, date_str, title))
+                    success_count += 1
+                    
+                    if success_count % 10 == 0:
+                        print(f"   ✓ import {success_count} row...")
+                    
+                except psycopg2.IntegrityError as e:
+                    error_count += 1
+                    error_rows.append((row_num, str(e), row))
+                    conn.rollback()
+                    print(f"  {row_num}: integrated error - {str(e)[:60]}")
+                    
+                except ValueError as e:
+                    error_count += 1
+                    error_rows.append((row_num, str(e), row))
+                    print(f" {row_num}: data verify error - {str(e)}")
+                    
+                except Exception as e:
+                    error_count += 1
+                    error_rows.append((row_num, str(e), row))
+                    print(f"   {row_num}: unknow error - {str(e)[:60]}")
+
+        print("\n success")
+        print(f"   success: {success_count} row")
+        print(f"   fail: {error_count} row")
+        
+        cursor.execute(f'SELECT COUNT(*) FROM {TABLE_NAME};')
+        total_in_db = cursor.fetchone()[0]
+        print(f"   now database have {total_in_db} reccord")
+        
+        
+
+        if error_rows:
+            print(f"\n error info:")
+            for row_num, error, data in error_rows[:5]:
+                print(f"\n   行 {row_num}:")
+                print(f"   error: {error}")
+                print(f"   data: {data}")
+            if len(error_rows) > 5:
+                print(f"\n   ... also have {len(error_rows) - 5} row error")
+        
+        cursor.close()
+        conn.close()
+        
+    except psycopg2.OperationalError as e:
+        print(f"database connect error: {e}")
+        
+    except psycopg2.ProgrammingError as e:
+        print(f"SQL error: {e}")
+        print("please check auth_user is exist ?")
+        
+    except Exception as e:
+        print(f"unknow erre: {type(e).__name__}: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+def export_feedback(output_path='feedback_export.csv'):
+    try:
+        print("connect database...")
+        conn = psycopg2.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+        print("success")
+        
+
+        cursor.execute("""
+            SELECT EXISTS (
+                SELECT 1 FROM information_schema.tables 
+                WHERE table_name = %s
+            );
+        """, (TABLE_NAME,))
+        table_exists = cursor.fetchone()[0]
+        
+        if not table_exists:
+            print(f" '{TABLE_NAME}' doesnt exist")
+            conn.close()
+            return
+        
+        cursor.execute(f'SELECT COUNT(*) FROM {TABLE_NAME};')
+        row_count = cursor.fetchone()[0]
+        print(f"{row_count} reccord")
+        
+        if row_count == 0:
+            print("row is empty!。")
+            conn.close()
+            return
+        
+
+        print("query data ...")
+        sql_select = f'''
+        SELECT id, user_id, title, content, date 
+        FROM {TABLE_NAME}
+        ORDER BY date DESC;
+        '''
+        cursor.execute(sql_select)
+        rows = cursor.fetchall()
+        print(f"it have {len(rows)} row")
+        
+        
+        print(f"\nmaking CSV {output_path}")
+        with open(output_path, 'w', newline='', encoding='utf-8-sig') as csv_file:
+            writer = csv.writer(csv_file)
+            writer.writerow(['id', 'user_id', 'title', 'content', 'date'])
+            writer.writerows(rows)
+
+        if os.path.exists(output_path):
+            file_size = os.path.getsize(output_path)
+            print(f"success")
+            print(f" path: {os.path.abspath(output_path)}")
+            print(f" size: {file_size} bytes")
+        else:
+            print("CSV doesnt create！")
+        
+        cursor.close()
+        conn.close()
+        
+    except psycopg2.OperationalError as e:
+        print(f"database error: {e}")
+
+    except psycopg2.ProgrammingError as e:
+        print(f" SQL error: {e}")
+
+    except Exception as e:
+        print(f"nuknow error: {type(e).__name__}: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+
+
+def main_menu():
+
+    print("==============================================================");
+    print("||......................................____...............|| ");
+    print("||.7.\\^v.^............................./    \\ .............|| ");
+    print("||vN:Y:/:|>>..........................| | |  |.............|| ");
+    print("||7:|.Y:://r..........................|l W  r| ............|| ");
+    print("||.K.l;|:///>...................... _-||    ||--__  .......|| ");
+    print("L|_V_wi/LV_l..................... / \\====  ====y  \\........|| ");
+    print("___________]=====================/   \\---Y----/    \\=========");
+    print("    |  |  /                     |     \\  |   /     |l         ");
+    print("    |  | |              _________\\____ \\-+--/    ,/|l         ");
+    print("_________|______________\\             \\__V_/    /__|l_________");
+    print("_________________________\\    c[]-     \\++/__-/`_______________");
+    print("__________________________\\_____________V_____________________");
+    print("______________________________________________________________");
+
+    print("Please select table you want import/export")
+    print("1. feedback  2.post  3.stuff  4.comment  5.user")
+    num = input()
+    table_select(num)
+
     
-    created_objects = Feedback.objects.bulk_create(feedbacks_to_create)
-    print(f"success import {len(created_objects)}  Feedback data into database！")
+    print("------------------------------------------------------------")
+    print("1.  import CSV to database")
+    print("2.  export csv")
+    print("3.  exit")
+    print("------------------------------------------------------------")
 
-
-
-
-
-def export_from_django(output_filepath="exported_feedbacks.csv"):
-
-    queryset = Feedback.objects.select_related('user').values(      
-        'id', 'user__username', 'title', 'content', 'date'              # 使用 select_related 抓取關聯 User 的 username
-    )
     
-    df = pd.DataFrame(list(queryset))
-    df.rename(columns={'user__username': 'username'}, inplace=True)
+    choice = input("select (1/2/3): ").strip()
     
-    df.to_csv(output_filepath, index=False, encoding='utf-8-sig')
-    print(f"成功從資料庫匯出 {len(df)} 筆資料至 '{output_filepath}'！")
+    
+    if choice == '1':
+        csv_path = input("please import CSV path ").strip()
+
+        if not csv_path:
+            csv_path = 'feedback.csv'
+        import_feedback(csv_path)
+    
+    elif choice == '2':
+        output_path = input("please export CSV path ").strip()
+        if not output_path:
+            output_path = 'feedback_export.csv'
+        export_feedback(output_path)
+    
+    elif choice == '3':
+        return
+    
+    else:
+        print("no work , try again")
+    
+    again = input("\n conunite? (y/n): ").strip().lower()
+    if again == 'y':
+        main_menu()
 
 
-
-# -------------------------------------------------------------------
-# 主程式執行點
-# -------------------------------------------------------------------
 if __name__ == '__main__':
-
-    raw_dataset = [
-        {'username': 'admin', 'title': '  介面問題  ', 'content': '  按鈕太小了，不好點擊。 '},
-        {'username': 'non_existent_user', 'title': '', 'content': '這是一條沒有標題的反饋。'},
-        {'username': '', 'title': '系統很棒！' * 50, 'content': 'hihi'}, 
-    ]
-
-    print("=== Start data cleaning and formatting ===")
-    formatted_dataset = process_data(raw_dataset)
-    
-    print("===import data into Django databade ===")
-    import_to_django(formatted_dataset)
-    
-    print("=== from Django export data ===")
-    export_from_django()
+    main_menu()
