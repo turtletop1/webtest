@@ -6,7 +6,6 @@ from django.utils import timezone
 # -------------------------------------------------------------------
 # 步驟 0: 初始化 Django 環境 (允許獨立腳本存取 Django ORM)
 # -------------------------------------------------------------------
-# 請將 'myproject.settings' 替換為您的 Django 專案設定檔路徑
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
