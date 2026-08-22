@@ -13,8 +13,8 @@
             <ul class="navbar-nav ml-auto align-items-center">
                 
                 <li class="nav-item dropdown {% if '/posts/' in request.path %}active{% endif %}">
-                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="material-symbols-outlined mr-1 fs-6">article</span> Post
+                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" data-placement="top" title="Post">
+                        <span class="material-symbols-outlined mr-1 fs-6">article</span> 
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="postDropdown">
                         <a href="{% url 'posts:post' %}" class="dropdown-item">All Posts</a>
@@ -30,7 +30,7 @@
 
                 <li class="nav-item dropdown {% if '/generations/' in request.path %}active{% endif %}">
                     <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" data-placement="top" title="generations~">
-                        <span class="material-symbols-outlined mr-1 fs-6">pages</span> generations
+                        <span class="material-symbols-outlined mr-1 fs-6">pages</span> 
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="postDropdown">
                         {% if user.is_staff %}
@@ -45,25 +45,39 @@
                 {% if user.is_authenticated %}
                     <li class="nav-item {% if '/stuffs/' in request.path %}active {% endif %} ">
                         <a href="{% url 'stuffs:stuff' %}" class="nav-link d-flex align-items-center" data-toggle="tooltip" data-placement="top" title="stuff">
-                            <span class="material-symbols-outlined mr-1 fs-6">inventory_2</span> Stuff
+                            <span class="material-symbols-outlined mr-1 fs-6">inventory_2</span> 
                         </a>
                     </li>
 
                     <li class="nav-item {% if '/comments/comment' in request.path %}active{% endif %}">
                         <a href="{% url 'comments:comment' %}" class="nav-link d-flex align-items-center" data-toggle="tooltip" data-placement="top" title="comment">
-                            <span class="material-symbols-outlined mr-1 fs-6">comment</span> Comment
+                            <span class="material-symbols-outlined mr-1 fs-6">comment</span> 
                         </a>
                     </li>
+
+
+                <li class="nav-item dropdown {% if '/user_messages/' in request.path %}active{% endif %}">
+                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="postDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" data-placement="top" title="message">
+                        <span class="material-symbols-outlined mr-1 fs-6">message</span> 
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="postDropdown">
+
+                        <a href="{% url 'user_messages:user_message' 'sender' %}" class="dropdown-item">sender</a>
+
+                        <div class="dropdown-divider"></div>
+                            <a href="{% url 'user_messages:user_message' 'receiver' %} " class="dropdown-item">receiver</a>
+                    </div>
+                </li>
 
                     
                     <li class="nav-item {% if '/feedbacks/feedback' in request.path %}active{% endif %}">
                         {% if user.is_staff%}
                         <a href="{% url 'feedbacks:feedback' %}" class="nav-link d-flex align-items-center" data-toggle="tooltip" data-placement="top" title="feedback">
-                            <span class="material-symbols-outlined mr-1 fs-6">feedback</span> Feedback
+                            <span class="material-symbols-outlined mr-1 fs-6">feedback</span> 
                         </a>
                         {% else %}
                         <a href="{% url 'feedbacks:create_feedback' %}" class="nav-link d-flex align-items-center">
-                            <span class="material-symbols-outlined mr-1 fs-6">feedback</span> Feedback
+                            <span class="material-symbols-outlined mr-1 fs-6">feedback</span> 
                         </a>
                         {% endif %}
                     </li>

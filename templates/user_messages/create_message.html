@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+{% load humanize %}
+
+<div class="container my-4">
+    <h2 class="display-5 mb-4">
+        <span class="material-symbols-outlined align-middle" style="font-size: 40px;">message</span> 
+        Send Message to <span class="text-primary">{{ receiver.username }}</span>
+    </h2>
+
+    <form action="{% url 'user_messages:create_message' receiver.id %}" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group row mb-3">
+            <label for="content" class="col-sm-2 col-form-label font-weight-bold">Content</label>
+            <div class="col-sm-10">
+                <textarea name="content" id="content" class="form-control" cols="30" rows="8" placeholder="Type your message here..." required></textarea>
+            </div>
+        </div>
+
+        <hr>
+        <div class="d-flex gap-2">
+            <a href="{% url 'user_messages:user_message' %}" class="btn btn-outline-secondary w-50 fw-bold">Cancel</a>
+            <button class="btn btn-primary w-50 fw-bold" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

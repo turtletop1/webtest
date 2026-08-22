@@ -33,6 +33,7 @@ LOCAL_APPS = [                      #add new page
     "comments.apps.CommentsConfig",
     "feedbacks.apps.FeedbacksConfig",
     "generations.apps.GenerationsConfig",
+    "user_messages.apps.UserMessagesConfig",
 ]
 
 THIRD_PARTY_APPS = ["debug_toolbar", "widget_tweaks","taggit","import_export"]

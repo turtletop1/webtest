@@ -106,7 +106,11 @@
                     </li>
                 </ul>
             </div>
+        <a href="{% url 'user_messages:create_message' post.user.id %}" class="btn btn-outline-info font-weight-bold" role="button" aria-pressed="true">
+             send msg
+        </a>
         </div>
+        
     
 
 
@@ -212,6 +216,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title mb-3">Add Your Comment</h5>
+
                         <form action="{% url 'posts:post_comment_create' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="user_id" value="{{ user.id }}">
